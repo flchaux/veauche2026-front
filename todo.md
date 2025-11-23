@@ -1,24 +1,29 @@
-# Landing Page Pro - TODO
+# Veauche Mérite Mieux - Landing Page TODO
 
-## Configuration et Design
-- [x] Configurer la palette de couleurs (#0D6EB2 et #DF9F14) dans index.css
-- [x] Configurer les polices professionnelles via Google Fonts
-- [x] Définir les variables de thème (couleurs primaires, secondaires, accents)
+## Préparation des assets
+- [x] Copier les images dans le dossier public
+- [x] Configurer le logo dans const.ts
+- [x] Optimiser les images pour le web
 
-## Sections de la Landing Page
-- [x] Section Hero avec titre accrocheur et call-to-action
-- [x] Section Présentation des services/valeurs
-- [x] Section Avantages/Bénéfices avec icônes
-- [x] Section Témoignages ou statistiques de confiance
-- [x] Section Call-to-Action final
+## Configuration du thème
+- [x] Extraire et configurer les couleurs du logo (#0D6EB2 bleu, #DF9F14 or)
+- [x] Configurer les polices appropriées pour une campagne municipale
+- [x] Adapter le thème aux couleurs de la campagne
+
+## Sections de la landing page
+- [x] Section Hero avec header image "Veauche Mérite Mieux"
+- [x] Section présentation personnelle avec portrait
+- [x] Section des 3 priorités (Ville respirable, Biens communs, Lien humain)
+- [x] Section formulaire de collecte d'avis avec email (CTA principal)
+- [x] Section équipe pour montrer le sérieux
 - [x] Footer avec informations de contact
 
-## Éléments visuels
-- [x] Ajouter des icônes professionnelles (lucide-react)
-- [x] Créer des cartes avec effets hover
-- [x] Ajouter des animations subtiles pour le professionnalisme
+## Fonctionnalités
+- [x] Formulaire de collecte d'avis avec validation email
+- [x] Design responsive mobile/tablette/desktop
+- [x] Intégration des photos de Veauche
 
-## Tests et Finalisation
-- [x] Vérifier la responsivité mobile/tablette/desktop
-- [x] Tester tous les liens et boutons
+## Tests et finalisation
+- [x] Tester le formulaire
+- [x] Vérifier la responsivité
 - [x] Créer un checkpoint final
