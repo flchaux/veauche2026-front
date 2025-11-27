@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { trpc } from "@/lib/trpc";
 import { 
   Trees, 
   School, 
@@ -15,24 +14,15 @@ import {
   Mail,
   Send,
   UserCircle2,
-  ArrowRight,
-  Loader2
+  ArrowRight
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
-// Mapping des noms d'icônes vers les composants
-const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  Trees,
-  School,
-  Users,
-  Shield,
-  Heart,
-  Building2,
-};
-
 export default function Home() {
-  const { user, loading, error, isAuthenticated, logout } = useAuth();
+  // The userAuth hooks provides authentication state
+  // To implement login/logout functionality, simply call logout() or redirect to getLoginUrl()
+  let { user, loading, error, isAuthenticated, logout } = useAuth();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -40,19 +30,6 @@ export default function Home() {
     opinion: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // Récupération des données Strapi
-  const { data: heroData, isLoading: heroLoading } = trpc.strapi.heroSection.useQuery();
-  const { data: presentationData, isLoading: presentationLoading } = trpc.strapi.presentationCandidat.useQuery();
-  const { data: sectionPrioritesData, isLoading: sectionPrioritesLoading } = trpc.strapi.sectionPriorites.useQuery();
-  const { data: prioritesData, isLoading: prioritesLoading } = trpc.strapi.priorites.useQuery();
-  const { data: methodeSectionData, isLoading: methodeSectionLoading } = trpc.strapi.methodeSection.useQuery();
-  const { data: methodesData, isLoading: methodesLoading } = trpc.strapi.methodesGestion.useQuery();
-  const { data: sectionEquipeData, isLoading: sectionEquipeLoading } = trpc.strapi.sectionEquipe.useQuery();
-  const { data: membresData, isLoading: membresLoading } = trpc.strapi.membresEquipeCles.useQuery();
-  const { data: photosData, isLoading: photosLoading } = trpc.strapi.photosVille.useQuery();
-  const { data: formulaireData, isLoading: formulaireLoading } = trpc.strapi.sectionFormulaire.useQuery();
-  const { data: footerData, isLoading: footerLoading } = trpc.strapi.footer.useQuery();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,24 +48,6 @@ export default function Home() {
       setIsSubmitting(false);
     }, 1000);
   };
-
-  // Helper pour obtenir l'URL d'une image Strapi
-  const getStrapiImageUrl = (imageUrl: string | undefined): string => {
-    if (!imageUrl) return "";
-    if (imageUrl.startsWith("http")) return imageUrl;
-    return `${process.env.STRAPI_URL || ""}${imageUrl}`;
-  };
-
-  // Afficher un loader pendant le chargement initial
-  const isInitialLoading = heroLoading || presentationLoading || sectionPrioritesLoading || prioritesLoading;
-
-  if (isInitialLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-12 w-12 animate-spin text-primary" />
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -123,11 +82,8 @@ export default function Home() {
       <section className="relative">
         <div className="relative h-[400px] md:h-[500px] overflow-hidden">
           <img 
-            src={heroData?.image_header?.url ? 
-              getStrapiImageUrl(heroData?.image_header?.url) : 
-              "/header.png"
-            }
-            alt={heroData?.titre || "Veauche Mérite Mieux"} 
+            src="/header.png" 
+            alt="Veauche Mérite Mieux - Redonnons de l'air à notre ville" 
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80" />
@@ -136,14 +92,16 @@ export default function Home() {
           <div className="max-w-3xl">
             <div className="bg-card/95 backdrop-blur-sm border-2 border-primary/20 rounded-lg p-8 shadow-2xl">
               <h1 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
-                {heroData?.titre || "Ensemble, redonnons de l'air à Veauche"}
+                Ensemble, redonnons de l'air à Veauche
               </h1>
               <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                {heroData?.description || "Les élections municipales de 2026 sont l'occasion de choisir l'avenir de notre ville."}
+                Les élections municipales de 2026 sont l'occasion de choisir l'avenir de notre ville. 
+                Nous voulons une Veauche plus respirable, plus solidaire, et mieux gérée. 
+                <span className="font-semibold text-foreground"> Votre avis compte.</span>
               </p>
               <Button size="lg" className="text-base" asChild>
                 <a href="#votre-avis">
-                  {heroData?.texte_bouton || "Donnez votre avis"}
+                  Donnez votre avis
                   <MessageSquare className="ml-2 h-5 w-5" />
                 </a>
               </Button>
@@ -159,24 +117,29 @@ export default function Home() {
             <div className="order-2 lg:order-1 space-y-6">
               <div>
                 <span className="inline-block px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
-                  {presentationData?.badge || "Candidat aux municipales 2026"}
+                  Candidat aux municipales 2026
                 </span>
                 <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
-                  {presentationData?.titre || "Un engagement pour Veauche"}
+                  Un engagement pour Veauche
                 </h2>
               </div>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                {presentationData?.paragraphe_1 || ""}
+                Je suis né à Montbrison il y a 34 ans, Forezien de souche. Ma vie est à Veauche : 
+                ma fille vient d'entrer en maternelle, nous faisons du tennis, ma femme travaille à Badoit 
+                et a créé une association caritative sur la commune.
               </p>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                {presentationData?.paragraphe_2 || ""}
+                Je crois profondément que <span className="font-semibold text-foreground">Veauche a un grand potentiel</span>, 
+                mais qu'elle doit se tourner vers l'avenir et mettre en avant ses atouts : ses associations dynamiques, 
+                sa position stratégique entre agglomération et campagne, et son tissu industriel.
               </p>
               <div className="pt-4">
-                <h3 className="text-xl font-bold mb-3 text-foreground">
-                  {presentationData?.titre_equipe || "Notre équipe"}
-                </h3>
+                <h3 className="text-xl font-bold mb-3 text-foreground">Notre équipe</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  {presentationData?.description_equipe || ""}
+                  Nous avons constitué une liste représentative de tous les Veauchois : 
+                  politiquement, socialement, en termes de générations et de quartiers. 
+                  Une équipe complémentaire qui allie <span className="font-semibold text-foreground">le dynamisme 
+                  de la jeunesse à l'expérience et la connaissance de notre ville</span>.
                 </p>
               </div>
             </div>
@@ -184,10 +147,7 @@ export default function Home() {
               <div className="relative">
                 <div className="absolute -inset-4 bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl transform rotate-3" />
                 <img 
-                  src={presentationData?.photo_candidat?.url ?
-                    getStrapiImageUrl(presentationData?.photo_candidat?.url) :
-                    "/portrait.png"
-                  }
+                  src="/portrait.png" 
                   alt="Portrait du candidat" 
                   className="relative rounded-2xl shadow-2xl w-full"
                 />
@@ -202,66 +162,143 @@ export default function Home() {
         <div className="container">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-5xl font-bold mb-4 text-foreground">
-              {sectionPrioritesData?.titre || "Nos 3 priorités pour Veauche"}
+              Nos 3 priorités pour Veauche
             </h2>
             <p className="text-lg text-muted-foreground">
-              {sectionPrioritesData?.description || "Un programme concret, réaliste et ambitieux pour redonner de l'air à notre ville."}
+              Un programme concret, réaliste et ambitieux pour redonner de l'air à notre ville.
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 mb-12">
-            {prioritesData?.map((priorite) => {
-              const IconComponent = iconMap[priorite?.icone || ''] || Trees;
-              const actions = priorite?.actions?.split('\n').filter(a => a.trim()) || [];
-              
-              return (
-                <Card key={priorite.id} className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl">
-                  <CardContent className="p-8 space-y-6">
-                    <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center">
-                      <IconComponent className="h-8 w-8 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="text-2xl font-bold mb-3 text-card-foreground">
-                        {priorite?.titre}
-                      </h3>
-                      <p className="text-sm text-muted-foreground mb-4 italic">
-                        {priorite?.soustitre}
-                      </p>
-                    </div>
-                    <ul className="space-y-3 text-card-foreground">
-                      {actions.map((action, idx) => (
-                        <li key={idx} className="flex items-start gap-2">
-                          <span className="text-accent font-bold mt-1">•</span>
-                          <span>{action}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </CardContent>
-                </Card>
-              );
-            })}
+            {/* Priorité 1 */}
+            <Card className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl">
+              <CardContent className="p-8 space-y-6">
+                <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Trees className="h-8 w-8 text-primary" />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold mb-3 text-card-foreground">
+                    Une ville respirable et apaisée
+                  </h3>
+                  <p className="text-sm text-muted-foreground mb-4 italic">
+                    Cadre de vie, environnement, urbanisme maîtrisé
+                  </p>
+                </div>
+                <ul className="space-y-3 text-card-foreground">
+                  <li className="flex items-start gap-2">
+                    <span className="text-accent font-bold mt-1">•</span>
+                    <span>Ramener de la verdure et protéger nos espaces</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-accent font-bold mt-1">•</span>
+                    <span>Apaiser la circulation et développer les mobilités douces</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-accent font-bold mt-1">•</span>
+                    <span>Renforcer la sécurité et lutter contre les incivilités</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-accent font-bold mt-1">•</span>
+                    <span>Développer le réseau de vidéoprotection</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            {/* Priorité 2 */}
+            <Card className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl">
+              <CardContent className="p-8 space-y-6">
+                <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center">
+                  <School className="h-8 w-8 text-primary" />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold mb-3 text-card-foreground">
+                    Préserver nos biens communs
+                  </h3>
+                  <p className="text-sm text-muted-foreground mb-4 italic">
+                    Écoles, voiries, patrimoine, finances responsables
+                  </p>
+                </div>
+                <ul className="space-y-3 text-card-foreground">
+                  <li className="flex items-start gap-2">
+                    <span className="text-accent font-bold mt-1">•</span>
+                    <span>Rénover nos écoles et bâtiments municipaux</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-accent font-bold mt-1">•</span>
+                    <span>Embellir et assurer la propreté de nos espaces publics</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-accent font-bold mt-1">•</span>
+                    <span>Offrir des aires de jeux bien entretenues</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-accent font-bold mt-1">•</span>
+                    <span>Principe : 1 euro dépensé = 1 euro utile</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            {/* Priorité 3 */}
+            <Card className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl">
+              <CardContent className="p-8 space-y-6">
+                <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Users className="h-8 w-8 text-primary" />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold mb-3 text-card-foreground">
+                    Recréer du lien humain
+                  </h3>
+                  <p className="text-sm text-muted-foreground mb-4 italic">
+                    Solidarité, intergénérationnel, vie locale
+                  </p>
+                </div>
+                <ul className="space-y-3 text-card-foreground">
+                  <li className="flex items-start gap-2">
+                    <span className="text-accent font-bold mt-1">•</span>
+                    <span>Aider nos seniors et faciliter leur quotidien</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-accent font-bold mt-1">•</span>
+                    <span>Soutenir et promouvoir le tissu associatif</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-accent font-bold mt-1">•</span>
+                    <span>Renforcer les liens entre générations et quartiers</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-accent font-bold mt-1">•</span>
+                    <span>Renforcer la démocratie citoyenne</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
           </div>
 
           {/* Photos de Veauche */}
-          {photosData && photosData.length > 0 && (
-            <div className="grid md:grid-cols-2 gap-6 mt-12">
-              {photosData.slice(0, 2).map((photo) => (
-                <div key={photo.id} className="relative rounded-lg overflow-hidden shadow-lg group">
-                  <img 
-                    src={photo?.image?.url ?
-                      getStrapiImageUrl(photo?.image?.url) :
-                      "/vue-veauche-1.jpg"
-                    }
-                    alt={photo?.legende} 
-                    className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
-                    <p className="text-white font-semibold">{photo?.legende}</p>
-                  </div>
-                </div>
-              ))}
+          <div className="grid md:grid-cols-2 gap-6 mt-12">
+            <div className="relative rounded-lg overflow-hidden shadow-lg group">
+              <img 
+                src="/vue-veauche-1.jpg" 
+                alt="Vue de Veauche" 
+                className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
+                <p className="text-white font-semibold">Notre belle ville de Veauche</p>
+              </div>
             </div>
-          )}
+            <div className="relative rounded-lg overflow-hidden shadow-lg group">
+              <img 
+                src="/vue-veauche-2.jpg" 
+                alt="Vue de Veauche" 
+                className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
+                <p className="text-white font-semibold">Un cadre de vie à préserver</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -269,18 +306,21 @@ export default function Home() {
       <section className="py-16 bg-primary/5">
         <div className="container">
           <div className="max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold mb-8 text-center text-foreground">
-              {methodeSectionData?.titre || "Notre méthode de gestion"}
-            </h3>
+            <h3 className="text-2xl font-bold mb-8 text-center text-foreground">Notre méthode de gestion</h3>
             <div className="grid md:grid-cols-2 gap-6">
-              {methodesData?.map((methode) => {
-                const IconComponent = iconMap[methode?.icone] || Shield;
+              {[
+                { icon: Shield, text: "Suivi des projets en ligne et transparence totale" },
+                { icon: Heart, text: "Principe : 1 euro dépensé = 1 euro utile" },
+                { icon: Building2, text: "Maîtrise des taxes, optimisation des dépenses" },
+                { icon: Users, text: "Budget participatif et démocratie citoyenne" },
+              ].map((item, index) => {
+                const Icon = item.icon;
                 return (
-                  <div key={methode.id} className="flex items-start gap-4 bg-card p-4 rounded-lg border">
+                  <div key={index} className="flex items-start gap-4 bg-card p-4 rounded-lg border">
                     <div className="h-10 w-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
-                      <IconComponent className="h-5 w-5 text-accent" />
+                      <Icon className="h-5 w-5 text-accent" />
                     </div>
-                    <p className="text-card-foreground pt-2">{methode?.texte}</p>
+                    <p className="text-card-foreground pt-2">{item.text}</p>
                   </div>
                 );
               })}
@@ -294,40 +334,56 @@ export default function Home() {
         <div className="container">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-5xl font-bold mb-4 text-foreground">
-              {sectionEquipeData?.titre || "Une équipe engagée pour Veauche"}
+              Une équipe engagée pour Veauche
             </h2>
             <p className="text-lg text-muted-foreground">
-              {sectionEquipeData?.description || "Des Veauchois de tous horizons, unis par la même volonté : redonner de l'air à notre ville."}
+              Des Veauchois de tous horizons, unis par la même volonté : redonner de l'air à notre ville.
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 mb-12">
-            {membresData?.map((membre) => (
-              <Card key={membre.id} className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl">
+            {[
+              {
+                name: "Dominique Bertrand",
+                role: "Première adjointe",
+                bio: "Veauchoise depuis 25 ans, ancienne enseignante et présidente d'association. Experte en éducation et vie associative, elle connaît parfaitement les besoins des familles et des écoles de notre commune.",
+                quartier: "Centre-ville"
+              },
+              {
+                name: "Magali Rousseau",
+                role: "Conseillère déléguée au cadre de vie",
+                bio: "Architecte paysagiste de formation, Magali s'investit depuis 10 ans pour la préservation des espaces verts à Veauche. Mère de trois enfants, elle milite pour une ville plus respirable et apaisée.",
+                quartier: "Quartier des Écoles"
+              },
+              {
+                name: "Philippe Moreau",
+                role: "Conseiller délégué aux finances",
+                bio: "Expert-comptable et Veauchois de longue date, Philippe apporte son expertise en gestion financière. Il défend une gestion rigoureuse et transparente des deniers publics au service de l'intérêt général.",
+                quartier: "Quartier de la Gare"
+              },
+            ].map((member, index) => (
+              <Card key={index} className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl">
                 <CardContent className="p-6 space-y-4">
                   <div className="relative aspect-square rounded-lg overflow-hidden mb-4">
                     <img 
-                      src={membre?.photo?.url ?
-                        getStrapiImageUrl(membre?.photo?.url) :
-                        "/portrait.png"
-                      }
-                      alt={membre?.nom}
+                      src="/portrait.png" 
+                      alt={member.name}
                       className="w-full h-full object-cover"
                     />
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-card-foreground mb-1">
-                      {membre?.nom}
+                      {member.name}
                     </h3>
                     <p className="text-sm font-semibold text-primary mb-2">
-                      {membre?.role}
+                      {member.role}
                     </p>
                     <p className="text-sm text-muted-foreground mb-3 leading-relaxed">
-                      {membre?.biographie}
+                      {member.bio}
                     </p>
                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
                       <UserCircle2 className="h-4 w-4" />
-                      <span>{membre?.quartier}</span>
+                      <span>{member.quartier}</span>
                     </div>
                   </div>
                 </CardContent>
@@ -338,7 +394,7 @@ export default function Home() {
           <div className="text-center">
             <Button size="lg" variant="outline" asChild>
               <a href="/equipe">
-                {sectionEquipeData?.texte_bouton_complet || "Découvrir toute l'équipe"}
+                Découvrir toute l'équipe
                 <ArrowRight className="ml-2 h-5 w-5" />
               </a>
             </Button>
@@ -352,10 +408,12 @@ export default function Home() {
           <div className="max-w-2xl mx-auto">
             <div className="text-center mb-10">
               <h2 className="text-3xl md:text-5xl font-bold mb-4 text-primary-foreground">
-                {formulaireData?.titre || "Votre avis compte"}
+                Votre avis compte
               </h2>
               <p className="text-lg text-primary-foreground/90 leading-relaxed">
-                {formulaireData?.description || "Nous voulons construire le programme avec vous, les Veauchois."}
+                Nous voulons construire le programme avec vous, les Veauchois. 
+                Partagez-nous vos préoccupations, vos idées, vos attentes pour notre ville. 
+                <span className="font-semibold"> Ensemble, faisons de Veauche une ville qui mérite mieux.</span>
               </p>
             </div>
 
@@ -364,7 +422,7 @@ export default function Home() {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="space-y-2">
                     <label htmlFor="name" className="text-sm font-semibold text-card-foreground">
-                      {formulaireData?.label_nom || "Votre nom"} <span className="text-destructive">*</span>
+                      Votre nom <span className="text-destructive">*</span>
                     </label>
                     <Input
                       id="name"
@@ -379,7 +437,7 @@ export default function Home() {
 
                   <div className="space-y-2">
                     <label htmlFor="email" className="text-sm font-semibold text-card-foreground">
-                      {formulaireData?.label_email || "Votre email"} <span className="text-destructive">*</span>
+                      Votre email <span className="text-destructive">*</span>
                     </label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
@@ -400,11 +458,11 @@ export default function Home() {
 
                   <div className="space-y-2">
                     <label htmlFor="opinion" className="text-sm font-semibold text-card-foreground">
-                      {formulaireData?.label_avis || "Votre avis sur Veauche"} <span className="text-destructive">*</span>
+                      Votre avis sur Veauche <span className="text-destructive">*</span>
                     </label>
                     <Textarea
                       id="opinion"
-                      placeholder={formulaireData?.placeholder_avis || "Qu'est-ce qui vous préoccupe à Veauche ?"}
+                      placeholder="Qu'est-ce qui vous préoccupe à Veauche ? Quelles sont vos attentes pour notre ville ? Partagez vos idées..."
                       value={formData.opinion}
                       onChange={(e) => setFormData({ ...formData, opinion: e.target.value })}
                       required
@@ -423,14 +481,14 @@ export default function Home() {
                       <>Envoi en cours...</>
                     ) : (
                       <>
-                        {formulaireData?.texte_bouton || "Envoyer mon avis"}
+                        Envoyer mon avis
                         <Send className="ml-2 h-5 w-5" />
                       </>
                     )}
                   </Button>
 
                   <p className="text-xs text-center text-muted-foreground">
-                    {formulaireData?.message_confidentialite || "En soumettant ce formulaire, vous acceptez d'être recontacté par l'équipe."}
+                    En soumettant ce formulaire, vous acceptez d'être recontacté par l'équipe "Veauche Mérite Mieux".
                   </p>
                 </form>
               </CardContent>
@@ -448,7 +506,7 @@ export default function Home() {
                 <img src="/logo.png" alt="Veauche Mérite Mieux" className="h-16" />
               </div>
               <p className="text-sm text-muted-foreground">
-                {footerData?.description || "Redonnons de l'air à notre ville"}
+                Redonnons de l'air à notre ville
               </p>
             </div>
             <div>
@@ -462,11 +520,11 @@ export default function Home() {
             <div>
               <h3 className="font-semibold mb-4 text-foreground">Contact</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>{footerData?.ville || "Veauche, Loire (42)"}</li>
-                <li>{footerData?.annee_election || "Élections municipales 2026"}</li>
+                <li>Veauche, Loire (42)</li>
+                <li>Élections municipales 2026</li>
                 <li className="pt-2">
                   <a href="#votre-avis" className="text-primary hover:underline font-medium">
-                    {footerData?.texte_contact || "Nous contacter"}
+                    Nous contacter
                   </a>
                 </li>
               </ul>
