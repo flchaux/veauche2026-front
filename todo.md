@@ -61,7 +61,7 @@
 - [x] Tester le build statique
 
 ## GitHub et CI/CD
-- [ ] Créer le repo GitHub veauche2026-front
-- [ ] Pousser le code sur GitHub
-- [ ] Configurer GitHub Actions pour build automatique
-- [ ] Documenter le processus de déploiement sur Render
+- [x] Créer le repo GitHub veauche2026-front
+- [x] Pousser le code sur GitHub
+- [x] Créer le workflow GitHub Actions pour build automatique
+- [x] Documenter le processus de déploiement sur Render dans README.md
