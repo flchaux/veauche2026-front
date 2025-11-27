@@ -51,3 +51,17 @@
 - [x] Modifier le code d'accès aux données dans Home.tsx
 - [x] Mettre à jour les tests vitest
 - [x] Vérifier que tout fonctionne correctement
+
+## Conversion en site statique
+- [x] Créer un service Strapi côté client
+- [x] Adapter Home.tsx pour utiliser useEffect au lieu de tRPC
+- [x] Adapter les appels Strapi pour fonctionner côté client
+- [x] Configurer les variables d'environnement Vite pour le token Strapi
+- [x] Supprimer les dépendances serveur (useAuth, tRPC)
+- [x] Tester le build statique
+
+## GitHub et CI/CD
+- [ ] Créer le repo GitHub veauche2026-front
+- [ ] Pousser le code sur GitHub
+- [ ] Configurer GitHub Actions pour build automatique
+- [ ] Documenter le processus de déploiement sur Render

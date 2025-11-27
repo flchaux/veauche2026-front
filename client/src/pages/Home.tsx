@@ -1,9 +1,34 @@
-import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { trpc } from "@/lib/trpc";
+import { 
+  getPriorites,
+  getMembresEquipe,
+  getMethodesGestion,
+  getPhotosVille,
+  getHeroSection,
+  getPresentationCandidat,
+  getSectionPriorites,
+  getSectionEquipe,
+  getSectionFormulaire,
+  getMethodeSection,
+  getFooter,
+  getStrapiImageUrl
+} from "@/lib/strapi";
+import type {
+  Priorite,
+  MembreEquipe,
+  MethodeGestion,
+  PhotoVille,
+  HeroSection,
+  PresentationCandidat,
+  SectionPriorites,
+  SectionEquipe,
+  SectionFormulaire,
+  MethodeSection,
+  Footer,
+} from "../../../shared/strapiTypes";
 import { 
   Trees, 
   School, 
@@ -18,7 +43,7 @@ import {
   ArrowRight,
   Loader2
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 
 // Mapping des noms d'icônes vers les composants
@@ -29,11 +54,14 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Shield,
   Heart,
   Building2,
+  MessageSquare,
+  Mail,
+  Send,
+  UserCircle2,
+  ArrowRight
 };
 
 export default function Home() {
-  const { user, loading, error, isAuthenticated, logout } = useAuth();
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -41,18 +69,70 @@ export default function Home() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Récupération des données Strapi
-  const { data: heroData, isLoading: heroLoading } = trpc.strapi.heroSection.useQuery();
-  const { data: presentationData, isLoading: presentationLoading } = trpc.strapi.presentationCandidat.useQuery();
-  const { data: sectionPrioritesData, isLoading: sectionPrioritesLoading } = trpc.strapi.sectionPriorites.useQuery();
-  const { data: prioritesData, isLoading: prioritesLoading } = trpc.strapi.priorites.useQuery();
-  const { data: methodeSectionData, isLoading: methodeSectionLoading } = trpc.strapi.methodeSection.useQuery();
-  const { data: methodesData, isLoading: methodesLoading } = trpc.strapi.methodesGestion.useQuery();
-  const { data: sectionEquipeData, isLoading: sectionEquipeLoading } = trpc.strapi.sectionEquipe.useQuery();
-  const { data: membresData, isLoading: membresLoading } = trpc.strapi.membresEquipeCles.useQuery();
-  const { data: photosData, isLoading: photosLoading } = trpc.strapi.photosVille.useQuery();
-  const { data: formulaireData, isLoading: formulaireLoading } = trpc.strapi.sectionFormulaire.useQuery();
-  const { data: footerData, isLoading: footerLoading } = trpc.strapi.footer.useQuery();
+  // États pour les données Strapi
+  const [heroData, setHeroData] = useState<HeroSection | null>(null);
+  const [presentationData, setPresentationData] = useState<PresentationCandidat | null>(null);
+  const [sectionPrioritesData, setSectionPrioritesData] = useState<SectionPriorites | null>(null);
+  const [prioritesData, setPrioritesData] = useState<Priorite[]>([]);
+  const [methodeSectionData, setMethodeSectionData] = useState<MethodeSection | null>(null);
+  const [methodesData, setMethodesData] = useState<MethodeGestion[]>([]);
+  const [sectionEquipeData, setSectionEquipeData] = useState<SectionEquipe | null>(null);
+  const [membresData, setMembresData] = useState<MembreEquipe[]>([]);
+  const [photosData, setPhotosData] = useState<PhotoVille[]>([]);
+  const [formulaireData, setFormulaireData] = useState<SectionFormulaire | null>(null);
+  const [footerData, setFooterData] = useState<Footer | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Chargement des données Strapi au montage du composant
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const [
+          hero,
+          presentation,
+          sectionPriorites,
+          priorites,
+          methodeSection,
+          methodes,
+          sectionEquipe,
+          membres,
+          photos,
+          formulaire,
+          footer
+        ] = await Promise.all([
+          getHeroSection(),
+          getPresentationCandidat(),
+          getSectionPriorites(),
+          getPriorites(),
+          getMethodeSection(),
+          getMethodesGestion(),
+          getSectionEquipe(),
+          getMembresEquipe(true), // Membres clés uniquement
+          getPhotosVille(),
+          getSectionFormulaire(),
+          getFooter()
+        ]);
+
+        setHeroData(hero);
+        setPresentationData(presentation);
+        setSectionPrioritesData(sectionPriorites);
+        setPrioritesData(priorites);
+        setMethodeSectionData(methodeSection);
+        setMethodesData(methodes);
+        setSectionEquipeData(sectionEquipe);
+        setMembresData(membres);
+        setPhotosData(photos);
+        setFormulaireData(formulaire);
+        setFooterData(footer);
+      } catch (error) {
+        console.error("Erreur lors du chargement des données:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    loadData();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,17 +152,8 @@ export default function Home() {
     }, 1000);
   };
 
-  // Helper pour obtenir l'URL d'une image Strapi
-  const getStrapiImageUrl = (imageUrl: string | undefined): string => {
-    if (!imageUrl) return "";
-    if (imageUrl.startsWith("http")) return imageUrl;
-    return `${process.env.STRAPI_URL || ""}${imageUrl}`;
-  };
-
   // Afficher un loader pendant le chargement initial
-  const isInitialLoading = heroLoading || presentationLoading || sectionPrioritesLoading || prioritesLoading;
-
-  if (isInitialLoading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Loader2 className="h-12 w-12 animate-spin text-primary" />
@@ -106,144 +177,136 @@ export default function Home() {
             <a href="#qui-sommes-nous" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               Qui sommes-nous
             </a>
-            <a href="/equipe" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <a href="#equipe" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               L'équipe
             </a>
             <a href="#votre-avis" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               Votre avis
             </a>
-            <Button variant="default" size="sm" asChild>
-              <a href="#votre-avis">Donnez votre avis</a>
-            </Button>
           </nav>
+          <Button asChild className="bg-primary hover:bg-primary/90">
+            <a href="#votre-avis">Donnez votre avis</a>
+          </Button>
         </div>
       </header>
 
-      {/* Hero Section avec Header Image */}
-      <section className="relative">
-        <div className="relative h-[400px] md:h-[500px] overflow-hidden">
-          <img 
-            src={heroData?.image_header?.url ? 
-              getStrapiImageUrl(heroData?.image_header?.url) : 
-              "/header.png"
-            }
-            alt={heroData?.titre || "Veauche Mérite Mieux"} 
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80" />
-        </div>
-        <div className="container relative -mt-24 pb-12">
-          <div className="max-w-3xl">
-            <div className="bg-card/95 backdrop-blur-sm border-2 border-primary/20 rounded-lg p-8 shadow-2xl">
-              <h1 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
-                {heroData?.titre || "Ensemble, redonnons de l'air à Veauche"}
-              </h1>
-              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                {heroData?.description || "Les élections municipales de 2026 sont l'occasion de choisir l'avenir de notre ville."}
-              </p>
-              <Button size="lg" className="text-base" asChild>
-                <a href="#votre-avis">
-                  {heroData?.texte_bouton || "Donnez votre avis"}
-                  <MessageSquare className="ml-2 h-5 w-5" />
-                </a>
-              </Button>
-            </div>
+      <main className="flex-1">
+        {/* Hero Section avec Header Image */}
+        <section className="relative">
+          <div className="relative h-[400px] md:h-[500px] overflow-hidden">
+            <img 
+              src={heroData?.image_header?.url ? 
+                getStrapiImageUrl(heroData?.image_header?.url) : 
+                "/header.png"
+              }
+              alt={heroData?.titre || "Veauche Mérite Mieux"} 
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80" />
           </div>
-        </div>
-      </section>
+          <div className="container relative -mt-24 pb-12">
+            <Card className="max-w-2xl bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/90 border-2">
+              <CardContent className="p-8">
+                <h1 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
+                  {heroData?.titre || "Ensemble, redonnons de l'air à Veauche"}
+                </h1>
+                <p className="text-lg text-muted-foreground mb-6">
+                  {heroData?.description || "Les élections municipales de 2026 sont l'occasion de choisir l'avenir de notre ville. Nous voulons une Veauche plus respirable, plus solidaire, et mieux gérée. Votre avis compte."}
+                </p>
+                <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
+                  <a href="#votre-avis">
+                    <MessageSquare className="mr-2 h-5 w-5" />
+                    {heroData?.texte_bouton || "Donnez votre avis"}
+                  </a>
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
 
-      {/* Section Présentation Personnelle */}
-      <section id="qui-sommes-nous" className="py-20 bg-secondary/30">
-        <div className="container">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="order-2 lg:order-1 space-y-6">
-              <div>
-                <span className="inline-block px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
+        {/* Section Présentation */}
+        <section id="qui-sommes-nous" className="py-20 bg-muted/30">
+          <div className="container">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div className="order-2 lg:order-1 space-y-6">
+                <div className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium">
                   {presentationData?.badge || "Candidat aux municipales 2026"}
-                </span>
-                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
+                </div>
+                <h2 className="text-3xl md:text-4xl font-bold text-foreground">
                   {presentationData?.titre || "Un engagement pour Veauche"}
                 </h2>
+                <div className="space-y-4 text-muted-foreground">
+                  <p>
+                    {presentationData?.paragraphe_1 || "Je suis né à Montbrison il y a 34 ans, Forezien de souche. Ma vie est à Veauche : ma fille vient d'entrer en maternelle, nous faisons du tennis, ma femme travaille à Badoit et a créé une association caritative sur la commune."}
+                  </p>
+                  <p>
+                    {presentationData?.paragraphe_2 || "Je crois profondément que Veauche a un grand potentiel, mais qu'elle doit se tourner vers l'avenir et mettre en avant ses atouts : ses associations dynamiques, sa position stratégique entre agglomération et campagne, et son tissu industriel."}
+                  </p>
+                </div>
+                <div className="pt-6 border-t">
+                  <h3 className="text-xl font-semibold mb-3 text-foreground">
+                    {presentationData?.titre_equipe || "Notre équipe"}
+                  </h3>
+                  <p className="text-muted-foreground">
+                    {presentationData?.description_equipe || "Nous avons constitué une liste représentative de tous les Veauchois : politiquement, socialement, en termes de générations et de quartiers. Une équipe complémentaire qui allie le dynamisme de la jeunesse à l'expérience et la connaissance de notre ville."}
+                  </p>
+                </div>
               </div>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                {presentationData?.paragraphe_1 || ""}
-              </p>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                {presentationData?.paragraphe_2 || ""}
-              </p>
-              <div className="pt-4">
-                <h3 className="text-xl font-bold mb-3 text-foreground">
-                  {presentationData?.titre_equipe || "Notre équipe"}
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  {presentationData?.description_equipe || ""}
-                </p>
+              <div className="order-1 lg:order-2">
+                <div className="relative">
+                  <div className="absolute -inset-4 bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl transform rotate-3" />
+                  <img 
+                    src={presentationData?.photo_candidat?.url ?
+                      getStrapiImageUrl(presentationData?.photo_candidat?.url) :
+                      "/portrait.png"
+                    }
+                    alt="Portrait du candidat" 
+                    className="relative rounded-2xl shadow-2xl w-full"
+                  />
+                </div>
               </div>
             </div>
-            <div className="order-1 lg:order-2">
-              <div className="relative">
-                <div className="absolute -inset-4 bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl transform rotate-3" />
-                <img 
-                  src={presentationData?.photo_candidat?.url ?
-                    getStrapiImageUrl(presentationData?.photo_candidat?.url) :
-                    "/portrait.png"
-                  }
-                  alt="Portrait du candidat" 
-                  className="relative rounded-2xl shadow-2xl w-full"
-                />
-              </div>
+          </div>
+        </section>
+
+        {/* Section Priorités */}
+        <section id="priorites" className="py-20">
+          <div className="container">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
+                {sectionPrioritesData?.titre || "Nos 3 priorités pour Veauche"}
+              </h2>
+              <p className="text-lg text-muted-foreground">
+                {sectionPrioritesData?.description || "Un programme concret, réaliste et ambitieux pour redonner de l'air à notre ville."}
+              </p>
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Section des 3 Priorités */}
-      <section id="priorites" className="py-20 bg-background">
-        <div className="container">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold mb-4 text-foreground">
-              {sectionPrioritesData?.titre || "Nos 3 priorités pour Veauche"}
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              {sectionPrioritesData?.description || "Un programme concret, réaliste et ambitieux pour redonner de l'air à notre ville."}
-            </p>
-          </div>
+            <div className="grid md:grid-cols-3 gap-8">
+              {prioritesData.map((priorite) => {
+                const IconComponent = iconMap[priorite?.icone || "Trees"];
+                return (
+                  <Card key={priorite.id} className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl">
+                    <CardContent className="p-8 space-y-4">
+                      <div className="h-14 w-14 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                        {IconComponent && <IconComponent className="h-7 w-7 text-primary" />}
+                      </div>
+                      <h3 className="text-2xl font-bold text-foreground">{priorite?.titre}</h3>
+                      <p className="text-sm text-accent font-medium">{priorite?.soustitre}</p>
+                      <ul className="space-y-2">
+                        {(priorite?.actions || "").split('\n').filter(Boolean).map((action, idx) => (
+                          <li key={idx} className="flex items-start gap-2 text-muted-foreground">
+                            <span className="text-primary mt-1">•</span>
+                            <span>{action}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
 
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            {prioritesData?.map((priorite) => {
-              const IconComponent = iconMap[priorite?.icone || ''] || Trees;
-              const actions = priorite?.actions?.split('\n').filter(a => a.trim()) || [];
-              
-              return (
-                <Card key={priorite.id} className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl">
-                  <CardContent className="p-8 space-y-6">
-                    <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center">
-                      <IconComponent className="h-8 w-8 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="text-2xl font-bold mb-3 text-card-foreground">
-                        {priorite?.titre}
-                      </h3>
-                      <p className="text-sm text-muted-foreground mb-4 italic">
-                        {priorite?.soustitre}
-                      </p>
-                    </div>
-                    <ul className="space-y-3 text-card-foreground">
-                      {actions.map((action, idx) => (
-                        <li key={idx} className="flex items-start gap-2">
-                          <span className="text-accent font-bold mt-1">•</span>
-                          <span>{action}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-
-          {/* Photos de Veauche */}
-          {photosData && photosData.length > 0 && (
+            {/* Photos de Veauche */}
             <div className="grid md:grid-cols-2 gap-6 mt-12">
               {photosData.slice(0, 2).map((photo) => (
                 <div key={photo.id} className="relative rounded-lg overflow-hidden shadow-lg group">
@@ -255,225 +318,220 @@ export default function Home() {
                     alt={photo?.legende} 
                     className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
-                    <p className="text-white font-semibold">{photo?.legende}</p>
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                    <p className="text-white font-medium">{photo?.legende}</p>
                   </div>
                 </div>
               ))}
             </div>
-          )}
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* Section Méthode */}
-      <section className="py-16 bg-primary/5">
-        <div className="container">
-          <div className="max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold mb-8 text-center text-foreground">
-              {methodeSectionData?.titre || "Notre méthode de gestion"}
-            </h3>
-            <div className="grid md:grid-cols-2 gap-6">
-              {methodesData?.map((methode) => {
-                const IconComponent = iconMap[methode?.icone] || Shield;
+        {/* Section Méthode de Gestion */}
+        <section className="py-20 bg-muted/30">
+          <div className="container">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+                {methodeSectionData?.titre || "Notre méthode de gestion"}
+              </h2>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+              {methodesData.map((methode) => {
+                const IconComponent = iconMap[methode?.icone || "Shield"];
                 return (
-                  <div key={methode.id} className="flex items-start gap-4 bg-card p-4 rounded-lg border">
-                    <div className="h-10 w-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
-                      <IconComponent className="h-5 w-5 text-accent" />
+                  <div key={methode.id} className="flex items-start gap-4 p-6 bg-background rounded-lg border-2 hover:border-primary/50 transition-all">
+                    <div className="h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
+                      {IconComponent && <IconComponent className="h-6 w-6 text-accent" />}
                     </div>
-                    <p className="text-card-foreground pt-2">{methode?.texte}</p>
+                    <p className="text-foreground font-medium">{methode?.texte}</p>
                   </div>
                 );
               })}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Section Équipe */}
-      <section className="py-20 bg-background">
-        <div className="container">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold mb-4 text-foreground">
-              {sectionEquipeData?.titre || "Une équipe engagée pour Veauche"}
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              {sectionEquipeData?.description || "Des Veauchois de tous horizons, unis par la même volonté : redonner de l'air à notre ville."}
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            {membresData?.map((membre) => (
-              <Card key={membre.id} className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl">
-                <CardContent className="p-6 space-y-4">
-                  <div className="relative aspect-square rounded-lg overflow-hidden mb-4">
-                    <img 
-                      src={membre?.photo?.url ?
-                        getStrapiImageUrl(membre?.photo?.url) :
-                        "/portrait.png"
-                      }
-                      alt={membre?.nom}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-card-foreground mb-1">
-                      {membre?.nom}
-                    </h3>
-                    <p className="text-sm font-semibold text-primary mb-2">
-                      {membre?.role}
-                    </p>
-                    <p className="text-sm text-muted-foreground mb-3 leading-relaxed">
-                      {membre?.biographie}
-                    </p>
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                      <UserCircle2 className="h-4 w-4" />
-                      <span>{membre?.quartier}</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="text-center">
-            <Button size="lg" variant="outline" asChild>
-              <a href="/equipe">
-                {sectionEquipeData?.texte_bouton_complet || "Découvrir toute l'équipe"}
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </a>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Section Formulaire - CTA Principal */}
-      <section id="votre-avis" className="py-20 bg-gradient-to-br from-primary to-primary/90">
-        <div className="container">
-          <div className="max-w-2xl mx-auto">
-            <div className="text-center mb-10">
-              <h2 className="text-3xl md:text-5xl font-bold mb-4 text-primary-foreground">
-                {formulaireData?.titre || "Votre avis compte"}
+        {/* Section Équipe */}
+        <section id="equipe" className="py-20">
+          <div className="container">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
+                {sectionEquipeData?.titre || "Une équipe engagée pour Veauche"}
               </h2>
-              <p className="text-lg text-primary-foreground/90 leading-relaxed">
-                {formulaireData?.description || "Nous voulons construire le programme avec vous, les Veauchois."}
+              <p className="text-lg text-muted-foreground">
+                {sectionEquipeData?.description || "Des Veauchois de tous horizons, unis par la même volonté : redonner de l'air à notre ville."}
               </p>
             </div>
 
-            <Card className="border-2 shadow-2xl">
+            <div className="grid md:grid-cols-3 gap-8 mb-12">
+              {membresData.map((membre) => (
+                <Card key={membre.id} className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl">
+                  <CardContent className="p-6 space-y-4">
+                    <div className="relative aspect-square rounded-lg overflow-hidden mb-4">
+                      <img 
+                        src={membre?.photo?.url ?
+                          getStrapiImageUrl(membre?.photo?.url) :
+                          "/portrait.png"
+                        }
+                        alt={membre?.nom}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-foreground">{membre?.nom}</h3>
+                      <p className="text-sm text-primary font-medium">{membre?.role}</p>
+                    </div>
+                    <p className="text-sm text-muted-foreground">{membre?.biographie}</p>
+                    <div className="flex items-center gap-2 text-sm text-accent">
+                      <UserCircle2 className="h-4 w-4" />
+                      <span>{membre?.quartier}</span>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            <div className="text-center">
+              <Button variant="outline" size="lg" asChild>
+                <a href="/equipe">
+                  {sectionEquipeData?.texte_bouton_complet || "Découvrir toute l'équipe"}
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </a>
+              </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* Section Formulaire */}
+        <section id="votre-avis" className="py-20 bg-primary text-primary-foreground">
+          <div className="container max-w-2xl">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                {formulaireData?.titre || "Votre avis compte"}
+              </h2>
+              <p className="text-lg opacity-90">
+                {formulaireData?.description || "Nous voulons construire le programme avec vous, les Veauchois. Partagez-nous vos préoccupations, vos idées, vos attentes pour notre ville. Ensemble, faisons de Veauche une ville qui mérite mieux."}
+              </p>
+            </div>
+
+            <Card className="bg-background text-foreground">
               <CardContent className="p-8">
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="space-y-2">
-                    <label htmlFor="name" className="text-sm font-semibold text-card-foreground">
-                      {formulaireData?.label_nom || "Votre nom"} <span className="text-destructive">*</span>
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium mb-2">
+                      {formulaireData?.label_nom || "Votre nom"} *
                     </label>
                     <Input
                       id="name"
                       type="text"
-                      placeholder="Ex: Marie Dupont"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       required
-                      className="text-base"
+                      className="w-full"
                     />
                   </div>
 
-                  <div className="space-y-2">
-                    <label htmlFor="email" className="text-sm font-semibold text-card-foreground">
-                      {formulaireData?.label_email || "Votre email"} <span className="text-destructive">*</span>
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium mb-2">
+                      {formulaireData?.label_email || "Votre email"} *
                     </label>
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                      <Input
-                        id="email"
-                        type="email"
-                        placeholder="votre.email@exemple.fr"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        required
-                        className="pl-10 text-base"
-                      />
-                    </div>
-                    <p className="text-xs text-muted-foreground">
+                    <Input
+                      id="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      required
+                      className="w-full"
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">
                       Votre email nous permet de vous recontacter et de vous tenir informé de notre campagne.
                     </p>
                   </div>
 
-                  <div className="space-y-2">
-                    <label htmlFor="opinion" className="text-sm font-semibold text-card-foreground">
-                      {formulaireData?.label_avis || "Votre avis sur Veauche"} <span className="text-destructive">*</span>
+                  <div>
+                    <label htmlFor="opinion" className="block text-sm font-medium mb-2">
+                      {formulaireData?.label_avis || "Votre avis sur Veauche"} *
                     </label>
                     <Textarea
                       id="opinion"
-                      placeholder={formulaireData?.placeholder_avis || "Qu'est-ce qui vous préoccupe à Veauche ?"}
                       value={formData.opinion}
                       onChange={(e) => setFormData({ ...formData, opinion: e.target.value })}
                       required
-                      rows={6}
-                      className="text-base resize-none"
+                      rows={5}
+                      className="w-full"
+                      placeholder={formulaireData?.placeholder_avis || "Partagez vos idées, préoccupations, ou suggestions pour améliorer notre ville..."}
                     />
                   </div>
 
                   <Button 
                     type="submit" 
                     size="lg" 
-                    className="w-full text-base"
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? (
-                      <>Envoi en cours...</>
+                      <>
+                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                        Envoi en cours...
+                      </>
                     ) : (
                       <>
+                        <Send className="mr-2 h-5 w-5" />
                         {formulaireData?.texte_bouton || "Envoyer mon avis"}
-                        <Send className="ml-2 h-5 w-5" />
                       </>
                     )}
                   </Button>
 
-                  <p className="text-xs text-center text-muted-foreground">
-                    {formulaireData?.message_confidentialite || "En soumettant ce formulaire, vous acceptez d'être recontacté par l'équipe."}
+                  <p className="text-xs text-muted-foreground text-center">
+                    {formulaireData?.message_confidentialite || "En soumettant ce formulaire, vous acceptez d'être recontacté par l'équipe \"Veauche Mérite Mieux\"."}
                   </p>
                 </form>
               </CardContent>
             </Card>
           </div>
-        </div>
-      </section>
+        </section>
+      </main>
 
       {/* Footer */}
-      <footer className="py-12 border-t bg-background">
+      <footer className="bg-muted/50 border-t py-12">
         <div className="container">
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <img src="/logo.png" alt="Veauche Mérite Mieux" className="h-16" />
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <img src="/Logo.png" alt="Veauche Mérite Mieux" className="h-16" />
               </div>
               <p className="text-sm text-muted-foreground">
                 {footerData?.description || "Redonnons de l'air à notre ville"}
               </p>
             </div>
+
             <div>
               <h3 className="font-semibold mb-4 text-foreground">Navigation</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#priorites" className="hover:text-foreground transition-colors">Nos priorités</a></li>
-                <li><a href="#qui-sommes-nous" className="hover:text-foreground transition-colors">Qui sommes-nous</a></li>
-                <li><a href="#votre-avis" className="hover:text-foreground transition-colors">Donnez votre avis</a></li>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#priorites" className="text-muted-foreground hover:text-foreground transition-colors">Nos priorités</a></li>
+                <li><a href="#qui-sommes-nous" className="text-muted-foreground hover:text-foreground transition-colors">Qui sommes-nous</a></li>
+                <li><a href="#equipe" className="text-muted-foreground hover:text-foreground transition-colors">L'équipe</a></li>
+                <li><a href="#votre-avis" className="text-muted-foreground hover:text-foreground transition-colors">Votre avis</a></li>
               </ul>
             </div>
+
             <div>
               <h3 className="font-semibold mb-4 text-foreground">Contact</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>{footerData?.ville || "Veauche, Loire (42)"}</li>
                 <li>{footerData?.annee_election || "Élections municipales 2026"}</li>
                 <li className="pt-2">
-                  <a href="#votre-avis" className="text-primary hover:underline font-medium">
+                  <a href="#votre-avis" className="text-primary hover:underline">
                     {footerData?.texte_contact || "Nous contacter"}
                   </a>
                 </li>
               </ul>
             </div>
           </div>
-          <div className="mt-12 pt-8 border-t text-center text-sm text-muted-foreground">
-            <p>&copy; 2024-2026 Veauche Mérite Mieux. Tous droits réservés.</p>
+
+          <div className="border-t mt-8 pt-8 text-center text-sm text-muted-foreground">
+            <p>© 2025 Veauche Mérite Mieux. Tous droits réservés.</p>
           </div>
         </div>
       </footer>
