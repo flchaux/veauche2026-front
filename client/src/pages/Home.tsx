@@ -261,7 +261,7 @@ export default function Home() {
                       "/portrait.png"
                     }
                     alt="Portrait du candidat" 
-                    className="relative rounded-2xl shadow-2xl w-full"
+                    className="relative rounded-2xl shadow-2xl w-full max-h-[700px] object-contain"
                   />
                 </div>
               </div>
