@@ -281,7 +281,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 gap-8">
               {prioritesData.map((priorite) => {
                 const IconComponent = iconMap[priorite?.icone || "Trees"];
                 return (
