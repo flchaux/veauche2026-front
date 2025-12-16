@@ -368,14 +368,14 @@ export default function Home() {
               {membresData.map((membre) => (
                 <Card key={membre.id} className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl">
                   <CardContent className="p-6 space-y-4">
-                    <div className="relative aspect-square rounded-lg overflow-hidden mb-4">
+                    <div className="relative  rounded-lg overflow-hidden bg-gray-100 mb-4">
                       <img 
                         src={membre?.photo?.url ?
                           getStrapiImageUrl(membre?.photo?.url) :
                           "/portrait.png"
                         }
                         alt={membre?.nom}
-                        className="w-full h-full object-cover"
+                        className="w-full h-auto object-contain"
                       />
                     </div>
                     <div>
