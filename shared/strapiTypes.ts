@@ -44,6 +44,7 @@ export interface MembreEquipe extends StrapiEntity {
   role: string;
   biographie: string;
   quartier: string;
+  citation?: string;
   photo?: StrapiImage | null;
   ordre: number;
   membre_cle: boolean;

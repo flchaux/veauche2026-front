@@ -65,3 +65,9 @@
 - [ ] Pousser le code sur GitHub
 - [ ] Configurer GitHub Actions pour build automatique
 - [ ] Documenter le processus de déploiement sur Render
+
+## Page Équipe
+- [x] Créer le composant Equipe.tsx avec trombinoscope en grille
+- [x] Ajouter la route /equipe dans App.tsx
+- [x] Ajouter le lien dans la navigation (déjà présent)
+- [ ] Commit et push
