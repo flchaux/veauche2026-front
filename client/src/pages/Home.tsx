@@ -205,7 +205,7 @@ export default function Home() {
               <img 
                 src="/logo_white.png" 
                 alt="Veauche Mérite Mieux" 
-                className="w-auto h-32 md:h-40 object-contain"
+                className="w-auto h-32 md:w-[512px] md:h-auto object-contain"
               />
             </div>
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80" />

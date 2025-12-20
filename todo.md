@@ -76,3 +76,9 @@
 - [x] Copier header_background.jpg et logo_white.png dans public
 - [x] Modifier le header avec background image et logo centré
 - [x] Commit et push
+
+## Correction routing et logo
+- [x] Créer _redirects pour Netlify/Render
+- [x] Créer vercel.json pour Vercel
+- [x] Agrandir le logo header à 512px sur desktop
+- [ ] Commit et push
