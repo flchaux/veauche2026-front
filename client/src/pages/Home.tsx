@@ -194,14 +194,20 @@ export default function Home() {
         {/* Hero Section avec Header Image */}
         <section className="relative">
           <div className="relative h-[400px] md:h-[500px] overflow-hidden">
+            {/* Background image */}
             <img 
-              src={heroData?.image_header?.url ? 
-                getStrapiImageUrl(heroData?.image_header?.url) : 
-                "/header.png"
-              }
-              alt={heroData?.titre || "Veauche Mérite Mieux"} 
+              src="/header_background.jpg"
+              alt="Veauche" 
               className="w-full h-full object-cover"
             />
+            {/* Logo centré par-dessus */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <img 
+                src="/logo_white.png" 
+                alt="Veauche Mérite Mieux" 
+                className="w-auto h-32 md:h-40 object-contain"
+              />
+            </div>
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80" />
           </div>
           <div className="container relative -mt-24 pb-12">

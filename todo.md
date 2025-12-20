@@ -70,4 +70,9 @@
 - [x] Créer le composant Equipe.tsx avec trombinoscope en grille
 - [x] Ajouter la route /equipe dans App.tsx
 - [x] Ajouter le lien dans la navigation (déjà présent)
+- [x] Commit et push
+
+## Modification Header
+- [x] Copier header_background.jpg et logo_white.png dans public
+- [x] Modifier le header avec background image et logo centré
 - [ ] Commit et push
