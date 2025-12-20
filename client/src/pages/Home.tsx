@@ -398,13 +398,61 @@ export default function Home() {
               ))}
             </div>
 
-            <div className="text-center">
-              <Button variant="outline" size="lg" asChild>
-                <a href="/equipe">
-                  {sectionEquipeData?.texte_bouton_complet || "Découvrir toute l'équipe"}
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </a>
-              </Button>
+            {/* Section Bientôt disponible */}
+            <div className="text-center mt-12">
+              <Card className="max-w-md mx-auto bg-muted/50">
+                <CardContent className="p-6">
+                  <h3 className="text-xl font-semibold mb-2">Bientôt disponible</h3>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Pour être averti de la mise en ligne de l'équipe complète, laissez votre email
+                  </p>
+                  <form
+                    onSubmit={async (e) => {
+                      e.preventDefault();
+                      const formData = new FormData(e.currentTarget);
+                      const email = formData.get('email') as string;
+                      
+                      try {
+                        const response = await fetch(`${import.meta.env.VITE_STRAPI_URL}/api/email-contacts`, {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${import.meta.env.VITE_STRAPI_TOKEN}`
+                          },
+                          body: JSON.stringify({
+                            data: {
+                              email: email,
+                              source: 'equipe_notification'
+                            }
+                          })
+                        });
+                        
+                        if (response.ok) {
+                          alert('✅ Merci ! Vous serez averti de la mise en ligne de l\'\u00e9quipe.');
+                          e.currentTarget.reset();
+                        } else {
+                          alert('❌ Une erreur est survenue. Veuillez réessayer.');
+                        }
+                      } catch (error) {
+                        console.error('Erreur:', error);
+                        alert('❌ Une erreur est survenue. Veuillez réessayer.');
+                      }
+                    }}
+                    className="flex gap-2"
+                  >
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="votre@email.fr"
+                      required
+                      className="flex-1 px-3 py-2 rounded-md border border-input bg-background text-foreground text-sm"
+                    />
+                    <Button type="submit" size="sm">
+                      M'avertir
+                    </Button>
+                  </form>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </section>

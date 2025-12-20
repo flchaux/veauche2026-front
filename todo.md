@@ -81,4 +81,10 @@
 - [x] Créer _redirects pour Netlify/Render
 - [x] Créer vercel.json pour Vercel
 - [x] Agrandir le logo header à 512px sur desktop
+- [x] Commit et push
+
+## Section équipe - Bientôt disponible
+- [x] Remplacer le bouton par une section "Bientôt disponible"
+- [x] Ajouter un formulaire de notification email
+- [x] Créer la fonction d'envoi vers Strapi email_contact
 - [ ] Commit et push
