@@ -75,4 +75,4 @@
 ## Modification Header
 - [x] Copier header_background.jpg et logo_white.png dans public
 - [x] Modifier le header avec background image et logo centré
-- [ ] Commit et push
+- [x] Commit et push
