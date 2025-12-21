@@ -99,3 +99,8 @@
 - [x] Garder le fond naturel de l'image
 - [x] Commit et push
 
+## Correction formulaire contact équipe
+- [x] Corriger l'erreur "Cannot read properties of null (reading 'reset')"
+- [x] Permettre la réinitialisation du formulaire après envoi réussi
+- [x] Tester le formulaire
+- [ ] Commit et push

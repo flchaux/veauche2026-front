@@ -429,7 +429,8 @@ export default function Home() {
                   <form
                     onSubmit={async (e) => {
                       e.preventDefault();
-                      const formData = new FormData(e.currentTarget);
+                      const form = e.currentTarget;
+                      const formData = new FormData(form);
                       const email = formData.get('email') as string;
                       
                       try {
@@ -448,8 +449,8 @@ export default function Home() {
                         });
                         
                         if (response.ok) {
-                          alert('✅ Merci ! Vous serez averti de la mise en ligne de l\'\u00e9quipe.');
-                          e.currentTarget.reset();
+                          alert('✅ Merci ! Vous serez averti de la mise en ligne de l\'équipe.');
+                          form.reset();
                         } else {
                           alert('❌ Une erreur est survenue. Veuillez réessayer.');
                         }
