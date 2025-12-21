@@ -87,4 +87,9 @@
 - [x] Remplacer le bouton par une section "Bientôt disponible"
 - [x] Ajouter un formulaire de notification email
 - [x] Créer la fonction d'envoi vers Strapi email_contact
+- [x] Commit et push
+
+## Ajustements logo et formulaire
+- [x] Remonter le logo dans le header
+- [x] Brancher le formulaire d'avis à Strapi email-contacts
 - [ ] Commit et push

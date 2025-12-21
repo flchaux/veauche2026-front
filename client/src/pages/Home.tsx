@@ -144,12 +144,35 @@ export default function Home() {
 
     setIsSubmitting(true);
     
-    // Simulation d'envoi (à remplacer par une vraie API)
-    setTimeout(() => {
-      toast.success("Merci pour votre avis ! Nous vous recontacterons bientôt.");
-      setFormData({ name: "", email: "", opinion: "" });
+    try {
+      const response = await fetch(`${import.meta.env.VITE_STRAPI_URL}/api/email-contacts`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_STRAPI_TOKEN}`
+        },
+        body: JSON.stringify({
+          data: {
+            name: formData.name,
+            email: formData.email,
+            message: formData.opinion,
+            source: 'avis'
+          }
+        })
+      });
+      
+      if (response.ok) {
+        toast.success("Merci pour votre avis ! Nous vous recontacterons bient\u00f4t.");
+        setFormData({ name: "", email: "", opinion: "" });
+      } else {
+        toast.error("❌ Une erreur est survenue. Veuillez réessayer.");
+      }
+    } catch (error) {
+      console.error('Erreur:', error);
+      toast.error("❌ Une erreur est survenue. Veuillez réessayer.");
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
 
   // Afficher un loader pendant le chargement initial
@@ -201,7 +224,7 @@ export default function Home() {
               className="w-full h-full object-cover"
             />
             {/* Logo centré par-dessus */}
-            <div className="absolute inset-0 flex items-center justify-center">
+            <div className="absolute inset-0 flex items-start pt-12 md:pt-16 justify-center">
               <img 
                 src="/logo_white.png" 
                 alt="Veauche Mérite Mieux" 
