@@ -176,11 +176,11 @@ export default function Home() {
             <span className="text-lg font-bold text-foreground hidden sm:inline">Veauche Mérite Mieux</span>
           </div>
           <nav className="hidden md:flex items-center gap-6">
-            <a href="#priorites" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              Nos priorités
-            </a>
             <a href="#qui-sommes-nous" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               Qui sommes-nous
+            </a>
+            <a href="#priorites" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+              Nos priorités
             </a>
             <a href="#equipe" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               L'équipe
