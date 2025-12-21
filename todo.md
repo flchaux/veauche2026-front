@@ -103,4 +103,5 @@
 - [x] Corriger l'erreur "Cannot read properties of null (reading 'reset')"
 - [x] Permettre la réinitialisation du formulaire après envoi réussi
 - [x] Tester le formulaire
-- [ ] Commit et push
+- [x] Commit et push
+
