@@ -110,4 +110,5 @@
 - [x] Créer fonction getDynamicIcon
 - [x] Mettre à jour Home.tsx pour utiliser les icônes dynamiques
 - [x] Documenter les noms d'icônes pour Strapi
-- [ ] Commit et push
+- [x] Commit et push
+
