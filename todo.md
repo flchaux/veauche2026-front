@@ -115,4 +115,5 @@
 ## Réorganisation menu navigation
 - [x] Analyser l'ordre du contenu de la page
 - [x] Réorganiser les liens du menu pour correspondre à l'ordre du contenu
-- [ ] Commit et push
+- [x] Commit et push
+
