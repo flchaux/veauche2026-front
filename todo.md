@@ -105,3 +105,9 @@
 - [x] Tester le formulaire
 - [x] Commit et push
 
+## Système d'icônes dynamiques
+- [x] Remplacer iconMap par import dynamique de lucide-react
+- [x] Créer fonction getDynamicIcon
+- [x] Mettre à jour Home.tsx pour utiliser les icônes dynamiques
+- [x] Documenter les noms d'icônes pour Strapi
+- [ ] Commit et push

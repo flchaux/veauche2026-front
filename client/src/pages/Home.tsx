@@ -29,37 +29,19 @@ import type {
   MethodeSection,
   Footer,
 } from "../../../shared/strapiTypes";
-import { 
-  Trees, 
-  School, 
-  Users, 
-  Shield,
-  Heart,
-  Building2,
-  MessageSquare,
-  Mail,
-  Send,
-  UserCircle2,
-  ArrowRight,
-  Loader2
-} from "lucide-react";
+import * as LucideIcons from "lucide-react";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 
-// Mapping des noms d'icônes vers les composants
-const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  Trees,
-  School,
-  Users,
-  Shield,
-  Heart,
-  Building2,
-  MessageSquare,
-  Mail,
-  Send,
-  UserCircle2,
-  ArrowRight
+// Fonction pour obtenir dynamiquement une icône Lucide par son nom
+const getDynamicIcon = (iconName: string) => {
+  const Icon = (LucideIcons as any)[iconName];
+  // Retourne l'icône demandée ou HelpCircle par défaut si non trouvée
+  return Icon || LucideIcons.HelpCircle;
 };
+
+// Composants d'icônes utilisés directement (non dynamiques)
+const { MessageSquare, Mail, Send, UserCircle2, ArrowRight, Loader2 } = LucideIcons;
 
 export default function Home() {
   const [formData, setFormData] = useState({
@@ -309,7 +291,7 @@ export default function Home() {
 
             <div className="grid md:grid-cols-2 gap-8">
               {prioritesData.map((priorite) => {
-                const IconComponent = iconMap[priorite?.icone || "Trees"];
+                const IconComponent = getDynamicIcon(priorite?.icone || "Trees");
                 return (
                   <Card key={priorite.id} className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl">
                     <CardContent className="p-8 space-y-4">
@@ -364,7 +346,7 @@ export default function Home() {
 
             <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
               {methodesData.map((methode) => {
-                const IconComponent = iconMap[methode?.icone || "Shield"];
+                const IconComponent = getDynamicIcon(methode?.icone || "Shield");
                 return (
                   <div key={methode.id} className="flex items-start gap-4 p-6 bg-background rounded-lg border-2 hover:border-primary/50 transition-all">
                     <div className="h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
