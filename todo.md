@@ -94,3 +94,7 @@
 - [x] Brancher le formulaire d'avis à Strapi email-contacts
 - [x] Commit et push
 
+## Ajustement style image candidat
+- [x] Supprimer l'effet de double fond penché autour de l'image du candidat
+- [x] Garder le fond naturel de l'image
+- [ ] Commit et push

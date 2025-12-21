@@ -282,17 +282,14 @@ export default function Home() {
                 </div>
               </div>
               <div className="order-1 lg:order-2">
-                <div className="relative">
-                  <div className="absolute -inset-4 bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl transform rotate-3" />
-                  <img 
-                    src={presentationData?.photo_candidat?.url ?
-                      getStrapiImageUrl(presentationData?.photo_candidat?.url) :
-                      "/portrait.png"
-                    }
-                    alt="Portrait du candidat" 
-                    className="relative rounded-2xl shadow-2xl w-full max-h-[700px] object-contain"
-                  />
-                </div>
+                <img 
+                  src={presentationData?.photo_candidat?.url ?
+                    getStrapiImageUrl(presentationData?.photo_candidat?.url) :
+                    "/portrait.png"
+                  }
+                  alt="Portrait du candidat" 
+                  className="rounded-2xl shadow-2xl w-full max-h-[700px] object-contain"
+                />
               </div>
             </div>
           </div>
