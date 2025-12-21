@@ -144,12 +144,35 @@ export default function Home() {
 
     setIsSubmitting(true);
     
-    // Simulation d'envoi (à remplacer par une vraie API)
-    setTimeout(() => {
-      toast.success("Merci pour votre avis ! Nous vous recontacterons bientôt.");
-      setFormData({ name: "", email: "", opinion: "" });
+    try {
+      const response = await fetch(`${import.meta.env.VITE_STRAPI_URL}/api/email-contacts`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_STRAPI_TOKEN}`
+        },
+        body: JSON.stringify({
+          data: {
+            name: formData.name,
+            email: formData.email,
+            message: formData.opinion,
+            source: 'avis'
+          }
+        })
+      });
+      
+      if (response.ok) {
+        toast.success("Merci pour votre avis ! Nous vous recontacterons bient\u00f4t.");
+        setFormData({ name: "", email: "", opinion: "" });
+      } else {
+        toast.error("❌ Une erreur est survenue. Veuillez réessayer.");
+      }
+    } catch (error) {
+      console.error('Erreur:', error);
+      toast.error("❌ Une erreur est survenue. Veuillez réessayer.");
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
 
   // Afficher un loader pendant le chargement initial
@@ -194,14 +217,20 @@ export default function Home() {
         {/* Hero Section avec Header Image */}
         <section className="relative">
           <div className="relative h-[400px] md:h-[500px] overflow-hidden">
+            {/* Background image */}
             <img 
-              src={heroData?.image_header?.url ? 
-                getStrapiImageUrl(heroData?.image_header?.url) : 
-                "/header.png"
-              }
-              alt={heroData?.titre || "Veauche Mérite Mieux"} 
+              src="/header_background.jpg"
+              alt="Veauche" 
               className="w-full h-full object-cover"
             />
+            {/* Logo centré par-dessus */}
+            <div className="absolute inset-0 flex items-start pt-12 md:pt-16 justify-center">
+              <img 
+                src="/logo_white.png" 
+                alt="Veauche Mérite Mieux" 
+                className="w-auto h-32 md:w-[512px] md:h-auto object-contain"
+              />
+            </div>
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80" />
           </div>
           <div className="container relative -mt-24 pb-12">
@@ -261,7 +290,7 @@ export default function Home() {
                       "/portrait.png"
                     }
                     alt="Portrait du candidat" 
-                    className="relative rounded-2xl shadow-2xl w-full"
+                    className="relative rounded-2xl shadow-2xl w-full max-h-[700px] object-contain"
                   />
                 </div>
               </div>
@@ -281,7 +310,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 gap-8">
               {prioritesData.map((priorite) => {
                 const IconComponent = iconMap[priorite?.icone || "Trees"];
                 return (
@@ -368,14 +397,14 @@ export default function Home() {
               {membresData.map((membre) => (
                 <Card key={membre.id} className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl">
                   <CardContent className="p-6 space-y-4">
-                    <div className="relative aspect-square rounded-lg overflow-hidden mb-4">
+                    <div className="relative  rounded-lg overflow-hidden bg-gray-100 mb-4">
                       <img 
                         src={membre?.photo?.url ?
                           getStrapiImageUrl(membre?.photo?.url) :
                           "/portrait.png"
                         }
                         alt={membre?.nom}
-                        className="w-full h-full object-cover"
+                        className="w-full h-auto object-contain"
                       />
                     </div>
                     <div>
@@ -392,13 +421,61 @@ export default function Home() {
               ))}
             </div>
 
-            <div className="text-center">
-              <Button variant="outline" size="lg" asChild>
-                <a href="/equipe">
-                  {sectionEquipeData?.texte_bouton_complet || "Découvrir toute l'équipe"}
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </a>
-              </Button>
+            {/* Section Bientôt disponible */}
+            <div className="text-center mt-12">
+              <Card className="max-w-md mx-auto bg-muted/50">
+                <CardContent className="p-6">
+                  <h3 className="text-xl font-semibold mb-2">Bientôt disponible</h3>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Pour être averti de la mise en ligne de l'équipe complète, laissez votre email
+                  </p>
+                  <form
+                    onSubmit={async (e) => {
+                      e.preventDefault();
+                      const formData = new FormData(e.currentTarget);
+                      const email = formData.get('email') as string;
+                      
+                      try {
+                        const response = await fetch(`${import.meta.env.VITE_STRAPI_URL}/api/email-contacts`, {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${import.meta.env.VITE_STRAPI_TOKEN}`
+                          },
+                          body: JSON.stringify({
+                            data: {
+                              email: email,
+                              source: 'equipe_notification'
+                            }
+                          })
+                        });
+                        
+                        if (response.ok) {
+                          alert('✅ Merci ! Vous serez averti de la mise en ligne de l\'\u00e9quipe.');
+                          e.currentTarget.reset();
+                        } else {
+                          alert('❌ Une erreur est survenue. Veuillez réessayer.');
+                        }
+                      } catch (error) {
+                        console.error('Erreur:', error);
+                        alert('❌ Une erreur est survenue. Veuillez réessayer.');
+                      }
+                    }}
+                    className="flex gap-2"
+                  >
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="votre@email.fr"
+                      required
+                      className="flex-1 px-3 py-2 rounded-md border border-input bg-background text-foreground text-sm"
+                    />
+                    <Button type="submit" size="sm">
+                      M'avertir
+                    </Button>
+                  </form>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </section>

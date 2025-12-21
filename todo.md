@@ -61,7 +61,36 @@
 - [x] Tester le build statique
 
 ## GitHub et CI/CD
-- [x] Créer le repo GitHub veauche2026-front
-- [x] Pousser le code sur GitHub
-- [x] Créer le workflow GitHub Actions pour build automatique
-- [x] Documenter le processus de déploiement sur Render dans README.md
+- [ ] Créer le repo GitHub veauche2026-front
+- [ ] Pousser le code sur GitHub
+- [ ] Configurer GitHub Actions pour build automatique
+- [ ] Documenter le processus de déploiement sur Render
+
+## Page Équipe
+- [x] Créer le composant Equipe.tsx avec trombinoscope en grille
+- [x] Ajouter la route /equipe dans App.tsx
+- [x] Ajouter le lien dans la navigation (déjà présent)
+- [x] Commit et push
+
+## Modification Header
+- [x] Copier header_background.jpg et logo_white.png dans public
+- [x] Modifier le header avec background image et logo centré
+- [x] Commit et push
+
+## Correction routing et logo
+- [x] Créer _redirects pour Netlify/Render
+- [x] Créer vercel.json pour Vercel
+- [x] Agrandir le logo header à 512px sur desktop
+- [x] Commit et push
+
+## Section équipe - Bientôt disponible
+- [x] Remplacer le bouton par une section "Bientôt disponible"
+- [x] Ajouter un formulaire de notification email
+- [x] Créer la fonction d'envoi vers Strapi email_contact
+- [x] Commit et push
+
+## Ajustements logo et formulaire
+- [x] Remonter le logo dans le header
+- [x] Brancher le formulaire d'avis à Strapi email-contacts
+- [x] Commit et push
+
