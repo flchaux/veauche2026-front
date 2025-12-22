@@ -117,3 +117,8 @@
 - [x] Réorganiser les liens du menu pour correspondre à l'ordre du contenu
 - [x] Commit et push
 
+## Corrections visuelles
+- [x] Remettre le dégradé léger derrière la photo du candidat
+- [x] Corriger "Veauche Mérite Mieux" en "Veauche mérite mieux" (sans majuscules)
+- [x] Remplacer l'icône cassée par le favicon dans le header
+- [ ] Commit et push

@@ -172,8 +172,8 @@ export default function Home() {
       <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src="/icon.png" alt="Veauche Mérite Mieux" className="h-10 w-10" />
-            <span className="text-lg font-bold text-foreground hidden sm:inline">Veauche Mérite Mieux</span>
+            <img src="/favicon.ico" alt="Veauche mérite mieux" className="h-10 w-10" />
+            <span className="text-lg font-bold text-foreground hidden sm:inline">Veauche mérite mieux</span>
           </div>
           <nav className="hidden md:flex items-center gap-6">
             <a href="#qui-sommes-nous" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
@@ -264,14 +264,17 @@ export default function Home() {
                 </div>
               </div>
               <div className="order-1 lg:order-2">
-                <img 
-                  src={presentationData?.photo_candidat?.url ?
-                    getStrapiImageUrl(presentationData?.photo_candidat?.url) :
-                    "/portrait.png"
-                  }
-                  alt="Portrait du candidat" 
-                  className="rounded-2xl shadow-2xl w-full max-h-[700px] object-contain"
-                />
+                <div className="relative">
+                  <div className="absolute -inset-4 bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl transform rotate-3" />
+                  <img 
+                    src={presentationData?.photo_candidat?.url ?
+                      getStrapiImageUrl(presentationData?.photo_candidat?.url) :
+                      "/portrait.png"
+                    }
+                    alt="Portrait du candidat" 
+                    className="relative rounded-2xl shadow-2xl w-full max-h-[700px] object-contain"
+                  />
+                </div>
               </div>
             </div>
           </div>
