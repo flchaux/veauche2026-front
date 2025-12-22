@@ -123,3 +123,9 @@
 - [x] Remplacer l'icône cassée par le favicon dans le header
 - [x] Commit et push
 
+## Corrections finales
+- [x] Dégradé derrière photo candidat SANS rotation et SANS marge
+- [x] Remettre icon.png dans le header (pas favicon.ico)
+- [x] Ajouter icon.png dans le footer
+- [x] Corriger "Veauche mérite mieux" dans le footer (sans maj)
+- [ ] Commit et push

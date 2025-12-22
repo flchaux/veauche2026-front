@@ -172,7 +172,7 @@ export default function Home() {
       <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src="/favicon.ico" alt="Veauche mérite mieux" className="h-10 w-10" />
+            <img src="/icon.png" alt="Veauche mérite mieux" className="h-10 w-10" />
             <span className="text-lg font-bold text-foreground hidden sm:inline">Veauche mérite mieux</span>
           </div>
           <nav className="hidden md:flex items-center gap-6">
@@ -265,7 +265,7 @@ export default function Home() {
               </div>
               <div className="order-1 lg:order-2">
                 <div className="relative">
-                  <div className="absolute -inset-4 bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl transform rotate-3" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl" />
                   <img 
                     src={presentationData?.photo_candidat?.url ?
                       getStrapiImageUrl(presentationData?.photo_candidat?.url) :
@@ -559,7 +559,8 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-8">
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <img src="/Logo.png" alt="Veauche Mérite Mieux" className="h-16" />
+                <img src="/icon.png" alt="Veauche mérite mieux" className="h-12 w-12" />
+                <span className="text-lg font-bold text-foreground">Veauche mérite mieux</span>
               </div>
               <p className="text-sm text-muted-foreground">
                 {footerData?.description || "Redonnons de l'air à notre ville"}
@@ -591,7 +592,7 @@ export default function Home() {
           </div>
 
           <div className="border-t mt-8 pt-8 text-center text-sm text-muted-foreground">
-            <p>© 2025 Veauche Mérite Mieux. Tous droits réservés.</p>
+            <p>© 2025 Veauche mérite mieux. Tous droits réservés.</p>
           </div>
         </div>
       </footer>
