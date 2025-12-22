@@ -128,4 +128,5 @@
 - [x] Remettre icon.png dans le header (pas favicon.ico)
 - [x] Ajouter icon.png dans le footer
 - [x] Corriger "Veauche mérite mieux" dans le footer (sans maj)
-- [ ] Commit et push
+- [x] Commit et push
+
