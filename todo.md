@@ -149,4 +149,5 @@
 - [x] Changer "notre assistant" en "notre assistant Veauchois"
 - [x] Adapter les réponses pour parler du programme au lieu du "contexte" (fait côté Strapi)
 - [x] Déplacer le bloc RAG à droite du hero
-- [ ] Commit et push
+- [x] Commit et push
+
