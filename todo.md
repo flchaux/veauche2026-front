@@ -143,4 +143,5 @@
 - [x] Créer les collections nécessaires dans Strapi
 - [x] Insérer les données via l'API Strapi (9 thèmes + 26 mesures)
 - [x] Tester le RAG avec les nouvelles données
-- [ ] Commit et push
+- [x] Commit et push
+
