@@ -217,27 +217,32 @@ export default function Home() {
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80" />
           </div>
           <div className="container relative -mt-24 pb-12">
-            <Card className="max-w-2xl bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/90 border-2">
-              <CardContent className="p-8">
-                <h1 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
-                  {heroData?.titre || "Ensemble, redonnons de l'air à Veauche"}
-                </h1>
-                <p className="text-lg text-muted-foreground mb-6">
-                  {heroData?.description || "Les élections municipales de 2026 sont l'occasion de choisir l'avenir de notre ville. Nous voulons une Veauche plus respirable, plus solidaire, et mieux gérée. Votre avis compte."}
-                </p>
-                <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
-                  <a href="#votre-avis">
-                    <MessageSquare className="mr-2 h-5 w-5" />
-                    {heroData?.texte_bouton || "Donnez votre avis"}
-                  </a>
-                </Button>
-              </CardContent>
-            </Card>
+            <div className="grid lg:grid-cols-2 gap-6 items-start">
+              {/* Bloc Hero à gauche */}
+              <Card className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/90 border-2">
+                <CardContent className="p-8">
+                  <h1 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
+                    {heroData?.titre || "Ensemble, redonnons de l'air à Veauche"}
+                  </h1>
+                  <p className="text-lg text-muted-foreground mb-6">
+                    {heroData?.description || "Les élections municipales de 2026 sont l'occasion de choisir l'avenir de notre ville. Nous voulons une Veauche plus respirable, plus solidaire, et mieux gérée. Votre avis compte."}
+                  </p>
+                  <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
+                    <a href="#votre-avis">
+                      <MessageSquare className="mr-2 h-5 w-5" />
+                      {heroData?.texte_bouton || "Donnez votre avis"}
+                    </a>
+                  </Button>
+                </CardContent>
+              </Card>
+              
+              {/* Bloc RAG à droite */}
+              <div className="lg:sticky lg:top-20">
+                <RAGQuestion />
+              </div>
+            </div>
           </div>
         </section>
-
-        {/* Section RAG Question */}
-        <RAGQuestion />
 
         {/* Section Présentation */}
         <section id="qui-sommes-nous" className="py-20 bg-muted/30">

@@ -66,9 +66,7 @@ export default function RAGQuestion() {
   };
 
   return (
-    <section className="py-12 bg-gradient-to-b from-background to-muted/20">
-      <div className="container max-w-4xl">
-        <Card className="shadow-xl border-2 border-primary/10">
+        <Card className="shadow-xl border-2 border-primary/10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/90">
           <CardContent className="p-6 md:p-8">
             {!response ? (
               <div className="space-y-4">
@@ -78,7 +76,7 @@ export default function RAGQuestion() {
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-foreground">Une question sur notre programme ?</h3>
-                    <p className="text-sm text-muted-foreground">Posez votre question, notre assistant vous répond</p>
+                    <p className="text-sm text-muted-foreground">Posez votre question, notre assistant Veauchois vous répond</p>
                   </div>
                 </div>
 
@@ -159,7 +157,5 @@ export default function RAGQuestion() {
             )}
           </CardContent>
         </Card>
-      </div>
-    </section>
   );
 }
