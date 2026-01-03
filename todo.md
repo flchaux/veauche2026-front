@@ -151,3 +151,8 @@
 - [x] Déplacer le bloc RAG à droite du hero
 - [x] Commit et push
 
+## Enregistrement des questions RAG
+- [x] Modifier le composant RAG pour enregistrer question, answer et ip dans Strapi
+- [x] Créer la collection rag-question si nécessaire (vérifier dans Strapi)
+- [x] Tester l'enregistrement
+- [ ] Commit et push

@@ -51,6 +51,38 @@ export default function RAGQuestion() {
 
       const data: RAGResponse = await res.json();
       setResponse(data);
+      
+      // Enregistrer la question/réponse dans Strapi
+      try {
+        // Récupérer l'IP de l'utilisateur
+        const ipResponse = await fetch('https://api.ipify.org?format=json');
+        const ipData = await ipResponse.json();
+        
+        const saveResponse = await fetch(`${import.meta.env.VITE_STRAPI_URL}/api/rag-questions`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${import.meta.env.VITE_STRAPI_TOKEN}`
+          },
+          body: JSON.stringify({
+            data: {
+              question: question,
+              answer: data.answer,
+              ip: ipData.ip
+            }
+          })
+        });
+        
+        if (!saveResponse.ok) {
+          const errorText = await saveResponse.text();
+          console.error('Erreur enregistrement question:', saveResponse.status, errorText);
+        } else {
+          console.log('Question enregistrée avec succès');
+        }
+      } catch (logError) {
+        // Erreur silencieuse pour ne pas perturber l'expérience utilisateur
+        console.error('Erreur lors de l\'enregistrement de la question:', logError);
+      }
     } catch (err) {
       console.error('Erreur RAG:', err);
       setError("Désolé, une erreur s'est produite. Veuillez réessayer.");
