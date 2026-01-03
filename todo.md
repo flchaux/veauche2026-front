@@ -130,3 +130,17 @@
 - [x] Corriger "Veauche mérite mieux" dans le footer (sans maj)
 - [x] Commit et push
 
+## Intégration RAG (Questions/Réponses)
+- [x] Créer le composant de question RAG avec formulaire
+- [x] Implémenter l'appel API vers Strapi RAG
+- [x] Afficher la réponse avec bouton de retour
+- [x] Intégrer le composant dans Home.tsx après le hero
+- [ ] Tester avec différentes questions
+- [ ] Commit et push
+## Alimentation Strapi avec mesures et thèmes du programme
+- [x] Accéder au document Google Docs du programme
+- [x] Extraire les mesures et thèmes
+- [x] Créer les collections nécessaires dans Strapi
+- [x] Insérer les données via l'API Strapi (9 thèmes + 26 mesures)
+- [x] Tester le RAG avec les nouvelles données
+- [ ] Commit et push

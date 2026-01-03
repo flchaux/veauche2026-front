@@ -32,6 +32,7 @@ import type {
 import * as LucideIcons from "lucide-react";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
+import RAGQuestion from "@/components/RAGQuestion";
 
 // Fonction pour obtenir dynamiquement une icône Lucide par son nom
 const getDynamicIcon = (iconName: string) => {
@@ -234,6 +235,9 @@ export default function Home() {
             </Card>
           </div>
         </section>
+
+        {/* Section RAG Question */}
+        <RAGQuestion />
 
         {/* Section Présentation */}
         <section id="qui-sommes-nous" className="py-20 bg-muted/30">
