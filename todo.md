@@ -173,3 +173,6 @@
 - [x] Tester les deux modes
 - [x] Commit et push
 
+## Lien bouton équipe complète
+- [x] Ajouter le lien vers /equipe sur le bouton "Voir l'équipe complète"
+- [ ] Commit et push

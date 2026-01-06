@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -423,10 +424,12 @@ export default function Home() {
             <div className="text-center mt-12">
               {parametresSite?.equipe_complete_disponible ? (
                 // Bouton vers la liste complète
-                <Button size="lg" className="gap-2">
-                  Voir l'équipe complète
-                  <ArrowRight className="h-5 w-5" />
-                </Button>
+                <Link href="/equipe">
+                  <Button size="lg" className="gap-2">
+                    Voir l'équipe complète
+                    <ArrowRight className="h-5 w-5" />
+                  </Button>
+                </Link>
               ) : (
                 // Formulaire "Bientôt disponible"
                 <Card className="max-w-md mx-auto bg-muted/50">
