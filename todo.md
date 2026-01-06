@@ -175,4 +175,5 @@
 
 ## Lien bouton équipe complète
 - [x] Ajouter le lien vers /equipe sur le bouton "Voir l'équipe complète"
-- [ ] Commit et push
+- [x] Commit et push
+
