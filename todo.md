@@ -171,4 +171,5 @@
 - [x] Modifier Home.tsx pour utiliser ces paramètres
 - [x] Créer la collection parametres-site dans Strapi (utilisateur)
 - [x] Tester les deux modes
-- [ ] Commit et push
+- [x] Commit et push
+
