@@ -157,3 +157,10 @@
 - [x] Tester l'enregistrement
 - [x] Commit et push
 
+## Reconstruction mesures et thèmes depuis nouveau document
+- [x] Rechercher et télécharger "2 PROGRAMME MUNICIPAL 2026" depuis Drive
+- [x] Extraire les mesures et thèmes du document
+- [x] Supprimer les anciennes mesures et thèmes dans Strapi
+- [x] Créer les nouvelles mesures et thèmes dans Strapi
+- [x] Tester le RAG avec les nouvelles données (ré-indexé par l'utilisateur)
+- [ ] Commit et push
