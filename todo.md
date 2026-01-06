@@ -163,4 +163,5 @@
 - [x] Supprimer les anciennes mesures et thèmes dans Strapi
 - [x] Créer les nouvelles mesures et thèmes dans Strapi
 - [x] Tester le RAG avec les nouvelles données (ré-indexé par l'utilisateur)
-- [ ] Commit et push
+- [x] Commit et push
+
