@@ -121,6 +121,13 @@ export async function getFooter(): Promise<Footer | null> {
   return response?.data || null;
 }
 
+export async function getParametresSite(): Promise<{afficher_bloc_rag: boolean, equipe_complete_disponible: boolean} | null> {
+  const response = await fetchStrapi<StrapiResponse<{afficher_bloc_rag: boolean, equipe_complete_disponible: boolean}>>(
+    "parametres-site"
+  );
+  return response?.data || null;
+}
+
 // Helper pour obtenir l'URL complète d'une image Strapi
 export function getStrapiImageUrl(imageUrl: string | undefined): string {
   if (!imageUrl) return "";

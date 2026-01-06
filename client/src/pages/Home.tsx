@@ -14,7 +14,8 @@ import {
   getSectionFormulaire,
   getMethodeSection,
   getFooter,
-  getStrapiImageUrl
+  getStrapiImageUrl,
+  getParametresSite
 } from "@/lib/strapi";
 import type {
   Priorite,
@@ -64,6 +65,7 @@ export default function Home() {
   const [photosData, setPhotosData] = useState<PhotoVille[]>([]);
   const [formulaireData, setFormulaireData] = useState<SectionFormulaire | null>(null);
   const [footerData, setFooterData] = useState<Footer | null>(null);
+  const [parametresSite, setParametresSite] = useState<{afficher_bloc_rag: boolean, equipe_complete_disponible: boolean} | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   // Chargement des données Strapi au montage du composant
@@ -81,7 +83,8 @@ export default function Home() {
           membres,
           photos,
           formulaire,
-          footer
+          footer,
+          parametres
         ] = await Promise.all([
           getHeroSection(),
           getPresentationCandidat(),
@@ -93,7 +96,8 @@ export default function Home() {
           getMembresEquipe(true), // Membres clés uniquement
           getPhotosVille(),
           getSectionFormulaire(),
-          getFooter()
+          getFooter(),
+          getParametresSite()
         ]);
 
         setHeroData(hero);
@@ -107,6 +111,7 @@ export default function Home() {
         setPhotosData(photos);
         setFormulaireData(formulaire);
         setFooterData(footer);
+        setParametresSite(parametres);
       } catch (error) {
         console.error("Erreur lors du chargement des données:", error);
       } finally {
@@ -236,10 +241,12 @@ export default function Home() {
                 </CardContent>
               </Card>
               
-              {/* Bloc RAG à droite */}
-              <div className="lg:sticky lg:top-20">
-                <RAGQuestion />
-              </div>
+              {/* Bloc RAG à droite - conditionné par Strapi */}
+              {parametresSite?.afficher_bloc_rag && (
+                <div className="lg:sticky lg:top-20">
+                  <RAGQuestion />
+                </div>
+              )}
             </div>
           </div>
         </section>
@@ -412,62 +419,71 @@ export default function Home() {
               ))}
             </div>
 
-            {/* Section Bientôt disponible */}
+            {/* Section Équipe complète - conditionnée par Strapi */}
             <div className="text-center mt-12">
-              <Card className="max-w-md mx-auto bg-muted/50">
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold mb-2">Bientôt disponible</h3>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Pour être averti de la mise en ligne de l'équipe complète, laissez votre email
-                  </p>
-                  <form
-                    onSubmit={async (e) => {
-                      e.preventDefault();
-                      const form = e.currentTarget;
-                      const formData = new FormData(form);
-                      const email = formData.get('email') as string;
-                      
-                      try {
-                        const response = await fetch(`${import.meta.env.VITE_STRAPI_URL}/api/email-contacts`, {
-                          method: 'POST',
-                          headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${import.meta.env.VITE_STRAPI_TOKEN}`
-                          },
-                          body: JSON.stringify({
-                            data: {
-                              email: email,
-                              source: 'equipe_notification'
-                            }
-                          })
-                        });
+              {parametresSite?.equipe_complete_disponible ? (
+                // Bouton vers la liste complète
+                <Button size="lg" className="gap-2">
+                  Voir l'équipe complète
+                  <ArrowRight className="h-5 w-5" />
+                </Button>
+              ) : (
+                // Formulaire "Bientôt disponible"
+                <Card className="max-w-md mx-auto bg-muted/50">
+                  <CardContent className="p-6">
+                    <h3 className="text-xl font-semibold mb-2">Bientôt disponible</h3>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Pour être averti de la mise en ligne de l'équipe complète, laissez votre email
+                    </p>
+                    <form
+                      onSubmit={async (e) => {
+                        e.preventDefault();
+                        const form = e.currentTarget;
+                        const formData = new FormData(form);
+                        const email = formData.get('email') as string;
                         
-                        if (response.ok) {
-                          alert('✅ Merci ! Vous serez averti de la mise en ligne de l\'équipe.');
-                          form.reset();
-                        } else {
+                        try {
+                          const response = await fetch(`${import.meta.env.VITE_STRAPI_URL}/api/email-contacts`, {
+                            method: 'POST',
+                            headers: {
+                              'Content-Type': 'application/json',
+                              'Authorization': `Bearer ${import.meta.env.VITE_STRAPI_TOKEN}`
+                            },
+                            body: JSON.stringify({
+                              data: {
+                                email: email,
+                                source: 'equipe_notification'
+                              }
+                            })
+                          });
+                          
+                          if (response.ok) {
+                            alert('✅ Merci ! Vous serez averti de la mise en ligne de l\'\u00e9quipe.');
+                            form.reset();
+                          } else {
+                            alert('❌ Une erreur est survenue. Veuillez réessayer.');
+                          }
+                        } catch (error) {
+                          console.error('Erreur:', error);
                           alert('❌ Une erreur est survenue. Veuillez réessayer.');
                         }
-                      } catch (error) {
-                        console.error('Erreur:', error);
-                        alert('❌ Une erreur est survenue. Veuillez réessayer.');
-                      }
-                    }}
-                    className="flex gap-2"
-                  >
-                    <input
-                      type="email"
-                      name="email"
-                      placeholder="votre@email.fr"
-                      required
-                      className="flex-1 px-3 py-2 rounded-md border border-input bg-background text-foreground text-sm"
-                    />
-                    <Button type="submit" size="sm">
-                      M'avertir
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
+                      }}
+                      className="flex gap-2"
+                    >
+                      <input
+                        type="email"
+                        name="email"
+                        placeholder="votre@email.fr"
+                        required
+                        className="flex-1 px-3 py-2 rounded-md border border-input bg-background text-foreground text-sm"
+                      />
+                      <Button type="submit" size="sm">
+                        M'avertir
+                      </Button>
+                    </form>
+                  </CardContent>
+                </Card>
+              )}
             </div>
           </div>
         </section>

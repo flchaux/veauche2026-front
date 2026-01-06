@@ -165,3 +165,10 @@
 - [x] Tester le RAG avec les nouvelles données (ré-indexé par l'utilisateur)
 - [x] Commit et push
 
+## Contrôles d'affichage depuis Strapi
+- [x] Créer collection/champ pour contrôler l'affichage du bloc RAG
+- [x] Créer collection/champ pour contrôler le mode équipe (formulaire vs bouton)
+- [x] Modifier Home.tsx pour utiliser ces paramètres
+- [x] Créer la collection parametres-site dans Strapi (utilisateur)
+- [x] Tester les deux modes
+- [ ] Commit et push
