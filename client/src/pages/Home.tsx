@@ -418,22 +418,26 @@ export default function Home() {
                   </CardContent>
                 </Card>
               ))}
-            </div>
 
-            {/* Section Équipe complète - conditionnée par Strapi */}
-            <div className="text-center mt-12">
+              {/* Bloc Équipe complète ou Bientôt disponible - conditionnée par Strapi */}
               {parametresSite?.equipe_complete_disponible ? (
                 // Bouton vers la liste complète
-                <Link href="/equipe">
-                  <Button size="lg" className="gap-2">
-                    Voir l'équipe complète
-                    <ArrowRight className="h-5 w-5" />
-                  </Button>
-                </Link>
+                <Card className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl flex items-center justify-center">
+                  <CardContent className="p-6 flex flex-col items-center justify-center h-full">
+                    <h3 className="text-xl font-bold text-foreground mb-4 text-center">Découvrez toute l'équipe</h3>
+                    <p className="text-sm text-muted-foreground mb-6 text-center">30 colistiers engagés pour Veauche</p>
+                    <Link href="/equipe">
+                      <Button size="lg" className="gap-2">
+                        Voir l'équipe complète
+                        <ArrowRight className="h-5 w-5" />
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
               ) : (
                 // Formulaire "Bientôt disponible"
-                <Card className="max-w-md mx-auto bg-muted/50">
-                  <CardContent className="p-6">
+                <Card className="border-2 bg-muted/50">
+                  <CardContent className="p-6 flex flex-col justify-center h-full">
                     <h3 className="text-xl font-semibold mb-2">Bientôt disponible</h3>
                     <p className="text-sm text-muted-foreground mb-4">
                       Pour être averti de la mise en ligne de l'équipe complète, laissez votre email
@@ -461,7 +465,7 @@ export default function Home() {
                           });
                           
                           if (response.ok) {
-                            alert('✅ Merci ! Vous serez averti de la mise en ligne de l\'\u00e9quipe.');
+                            alert('✅ Merci ! Vous serez averti de la mise en ligne de l\'équipe.');
                             form.reset();
                           } else {
                             alert('❌ Une erreur est survenue. Veuillez réessayer.');
@@ -471,16 +475,16 @@ export default function Home() {
                           alert('❌ Une erreur est survenue. Veuillez réessayer.');
                         }
                       }}
-                      className="flex gap-2"
+                      className="flex flex-col gap-2"
                     >
                       <input
                         type="email"
                         name="email"
                         placeholder="votre@email.fr"
                         required
-                        className="flex-1 px-3 py-2 rounded-md border border-input bg-background text-foreground text-sm"
+                        className="w-full px-3 py-2 rounded-md border border-input bg-background text-foreground text-sm"
                       />
-                      <Button type="submit" size="sm">
+                      <Button type="submit" size="sm" className="w-full">
                         M'avertir
                       </Button>
                     </form>

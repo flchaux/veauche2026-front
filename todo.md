@@ -177,3 +177,9 @@
 - [x] Ajouter le lien vers /equipe sur le bouton "Voir l'équipe complète"
 - [x] Commit et push
 
+## Repositionnement du bloc "Bientôt disponible"
+- [x] Analyser la structure actuelle de la section équipe
+- [x] Déplacer le bloc "Bientôt disponible" dans la grille avec les membres
+- [x] Vérifier le rendu visuel
+- [ ] Commit et push
+
