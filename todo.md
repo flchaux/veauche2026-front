@@ -183,3 +183,8 @@
 - [x] Vérifier le rendu visuel
 - [x] Commit (push via checkpoint)
 
+## Balises meta Open Graph pour Facebook
+- [x] Copier l'image header.png dans le dossier public
+- [x] Ajouter les balises meta Open Graph dans index.html
+- [x] Tester et commit les modifications
+
