@@ -181,5 +181,5 @@
 - [x] Analyser la structure actuelle de la section équipe
 - [x] Déplacer le bloc "Bientôt disponible" dans la grille avec les membres
 - [x] Vérifier le rendu visuel
-- [ ] Commit et push
+- [x] Commit (push via checkpoint)
 
