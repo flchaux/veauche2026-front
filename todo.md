@@ -188,3 +188,7 @@
 - [x] Ajouter les balises meta Open Graph dans index.html
 - [x] Tester et commit les modifications
 
+## Correction URL Open Graph
+- [x] Modifier les URLs de veauche2026.fr vers veauchemeritemieux.fr dans index.html
+- [ ] Commit et push vers GitHub
+
