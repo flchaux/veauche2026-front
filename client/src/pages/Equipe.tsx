@@ -13,7 +13,13 @@ export default function Equipe() {
     async function fetchData() {
       try {
         const membres = await getMembresEquipe();
-        setMembresData(membres || []);
+        // Tri alphabétique par nom
+        const membresTries = (membres || []).sort((a, b) => {
+          const nomA = a.nom?.toLowerCase() || '';
+          const nomB = b.nom?.toLowerCase() || '';
+          return nomA.localeCompare(nomB, 'fr');
+        });
+        setMembresData(membresTries);
       } catch (error) {
         console.error("Erreur lors du chargement des données:", error);
       } finally {
