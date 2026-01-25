@@ -192,9 +192,3 @@
 - [x] Modifier les URLs de veauche2026.fr vers veauchemeritemieux.fr dans index.html
 - [ ] Commit et push vers GitHub
 
-## Tri alphabétique de l'équipe
-- [x] Analyser la structure actuelle de la page Equipe
-- [x] Modifier le code pour trier les membres par ordre alphabétique
-- [x] Tester le tri
-- [ ] Commit et push vers GitHub
-
