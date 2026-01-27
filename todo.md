@@ -195,5 +195,10 @@
 ## Ajout "Veauche au coeur" dans les balises meta
 - [x] Modifier les balises meta pour inclure "Veauche au coeur"
 - [x] Tester les modifications
+- [x] Commit et push vers GitHub
+
+## Correction placement "Veauche au coeur"
+- [x] Retirer "Veauche au coeur" des descriptions visibles (og:description, twitter:description, meta description)
+- [x] Garder "Veauche au coeur" uniquement dans meta keywords
 - [ ] Commit et push vers GitHub
 
