@@ -192,3 +192,8 @@
 - [x] Modifier les URLs de veauche2026.fr vers veauchemeritemieux.fr dans index.html
 - [ ] Commit et push vers GitHub
 
+## Ajout "Veauche au coeur" dans les balises meta
+- [x] Modifier les balises meta pour inclure "Veauche au coeur"
+- [x] Tester les modifications
+- [ ] Commit et push vers GitHub
+
