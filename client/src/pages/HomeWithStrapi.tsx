@@ -82,7 +82,7 @@ export default function Home() {
       <section className="relative">
         <div className="relative h-[400px] md:h-[500px] overflow-hidden">
           <img 
-            src="/header.png" 
+            src="https://files.manuscdn.com/user_upload_by_module/session_file/112885793/AuSyanaWXmzgGrZP.png" 
             alt="Veauche Mérite Mieux - Redonnons de l'air à notre ville" 
             className="w-full h-full object-cover"
           />

@@ -202,3 +202,9 @@
 - [x] Garder "Veauche au coeur" uniquement dans meta keywords
 - [ ] Commit et push vers GitHub
 
+## Configuration de la langue en français
+- [x] Vérifier la configuration actuelle de la langue dans index.html
+- [x] Corriger l'attribut lang de "en" vers "fr"
+- [x] Ajouter les balises nécessaires pour indiquer le français
+- [ ] Commit et push vers GitHub
+
