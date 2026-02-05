@@ -49,7 +49,7 @@ export async function getPriorites(): Promise<Priorite[]> {
 }
 
 export async function getMembresEquipe(membresCles?: boolean): Promise<MembreEquipe[]> {
-  let endpoint = "membres-equipes?populate=*&sort=ordre:asc";
+  let endpoint = "membres-equipes?populate=*&sort=ordre:asc&pagination[pageSize]=100";
   if (membresCles !== undefined) {
     endpoint += `&filters[membre_cle][$eq]=${membresCles}`;
   }

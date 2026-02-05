@@ -206,5 +206,11 @@
 - [x] Vérifier la configuration actuelle de la langue dans index.html
 - [x] Corriger l'attribut lang de "en" vers "fr"
 - [x] Ajouter les balises nécessaires pour indiquer le français
+- [x] Commit et push vers GitHub
+
+## Correction pagination équipe
+- [x] Analyser le code de récupération des membres dans Equipe.tsx
+- [x] Modifier la requête Strapi pour désactiver la pagination (pagination[pageSize]=100)
+- [x] Tester que tous les membres s'affichent (30 membres au total)
 - [ ] Commit et push vers GitHub
 
