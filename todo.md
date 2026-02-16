@@ -214,3 +214,7 @@
 - [x] Tester que tous les membres s'affichent (30 membres au total)
 - [ ] Commit et push vers GitHub
 
+## Ajout de mots-clés supplémentaires
+- [x] Ajouter "Florian Chaux", "liste veauche", "veauche ensemble", "veauche territoire d'avenir" dans meta keywords
+- [ ] Commit et push vers GitHub
+
