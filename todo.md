@@ -244,5 +244,12 @@
 - [x] Mettre à jour le type SectionFormulaire dans strapiTypes.ts
 - [x] Remplacer dans Equipe.tsx
 - [x] Tester les modifications (vérification visuelle OK)
+- [x] Commit et push vers GitHub
+
+## Ajustements formulaire questions
+- [x] Supprimer le lien "Vos questions" du menu de navigation dans Home.tsx
+- [x] Supprimer le lien "Posez une question" du menu de navigation dans Equipe.tsx
+- [x] Modifier l'intro du formulaire dans Home.tsx pour l'adapter au contexte "poser une question"
+- [x] Tester les modifications (vérification visuelle OK)
 - [ ] Commit et push vers GitHub
 

@@ -47,9 +47,6 @@ export default function Equipe() {
             <a href="/#equipe" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
               Équipe
             </a>
-            <a href="/#vos-questions" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
-              Posez une question
-            </a>
           </nav>
         </div>
       </header>

@@ -192,9 +192,6 @@ export default function Home() {
             <a href="#equipe" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               L'équipe
             </a>
-            <a href="#vos-questions" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              Vos questions
-            </a>
           </nav>
           <Button asChild className="bg-primary hover:bg-primary/90">
             <a href="#vos-questions">Posez une question</a>
@@ -503,7 +500,7 @@ export default function Home() {
                 {formulaireData?.titre || "Posez vos questions"}
               </h2>
               <p className="text-lg opacity-90">
-                {formulaireData?.description || "Nous voulons construire le programme avec vous, les Veauchois. Partagez-nous vos préoccupations, vos idées, vos attentes pour notre ville. Ensemble, faisons de Veauche une ville qui mérite mieux."}
+                {formulaireData?.description || "Vous avez une question sur notre programme, nos propositions ou notre vision pour Veauche ? Nous sommes à votre écoute. Posez-nous vos questions, nous vous répondrons avec plaisir."}
               </p>
             </div>
 
