@@ -276,4 +276,4 @@
 ## Modification du texte CTA dans la page Equipe
 - [x] Remplacer "Vous aussi, rejoignez-nous !" par "Vous avez une question à notre équipe ?"
 - [x] Vérifier visuellement le changement
-- [ ] Commit et push vers GitHub
+- [x] Commit et push vers GitHub
