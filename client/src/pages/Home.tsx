@@ -170,20 +170,20 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header Navigation */}
-      <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
+      <header className="border-b bg-background sticky top-0 z-50">
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-3">
             <img src="/icon.png" alt="Veauche mérite mieux" className="h-10 w-10" />
             <span className="text-lg font-bold text-foreground hidden sm:inline">Veauche mérite mieux</span>
           </div>
           <nav className="hidden md:flex items-center gap-6">
-            <a href="#qui-sommes-nous" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <a href="#qui-sommes-nous" className="text-sm font-medium text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-105 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full">
               Qui sommes-nous
             </a>
-            <a href="#priorites" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <a href="#priorites" className="text-sm font-medium text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-105 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full">
               Nos priorités
             </a>
-            <a href="#equipe" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <a href="/equipe" className="text-sm font-medium text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-105 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full">
               L'équipe
             </a>
           </nav>

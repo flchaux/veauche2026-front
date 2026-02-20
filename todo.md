@@ -258,5 +258,11 @@
 - [x] Supprimer les appels à getSectionFormulaire()
 - [x] Remplacer par du contenu statique
 - [x] Tester les modifications (vérification visuelle OK)
+- [x] Commit et push vers GitHub
+
+## Amélioration style header et menu
+- [x] Enlever les gradients sur le header background
+- [x] Ajouter des effets hover élégants sur les liens du menu (underline animation + scale + color)
+- [x] Tester les modifications (vérification visuelle OK)
 - [ ] Commit et push vers GitHub
 
