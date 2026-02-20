@@ -1,6 +1,7 @@
 import type {
   StrapiResponse,
   Priorite,
+  Mesure,
   MembreEquipe,
   MethodeGestion,
   PhotoVille,
@@ -67,6 +68,13 @@ export async function getMethodesGestion(): Promise<MethodeGestion[]> {
 export async function getPhotosVille(): Promise<PhotoVille[]> {
   const response = await fetchStrapi<StrapiResponse<PhotoVille[]>>(
     "photos-villes?populate=*&sort=ordre:asc"
+  );
+  return response?.data || [];
+}
+
+export async function getMesures(): Promise<Mesure[]> {
+  const response = await fetchStrapi<StrapiResponse<Mesure[]>>(
+    "mesures?populate=*&sort=ordre:asc&pagination[pageSize]=100"
   );
   return response?.data || [];
 }

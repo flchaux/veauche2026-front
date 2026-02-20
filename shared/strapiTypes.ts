@@ -38,6 +38,14 @@ export interface Priorite extends StrapiEntity {
   actions: string;
 }
 
+// Collection Type: mesures
+export interface Mesure extends StrapiEntity {
+  titre: string;
+  description: string;
+  priorite: string; // Nom de la priorité/thème
+  ordre: number;
+}
+
 // Collection Type: membres_equipe
 export interface MembreEquipe extends StrapiEntity {
   nom: string;
