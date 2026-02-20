@@ -224,5 +224,11 @@
 - [x] Créer la page Mesures.tsx avec l'affichage par priorité (5 priorités × 10 mesures)
 - [x] Ajouter la route /mesures dans App.tsx (sans menu pour l'instant)
 - [x] Tester l'affichage des mesures (page fonctionnelle, en attente de données Strapi)
+- [x] Commit et push vers GitHub
+
+## Correction structure Mesures
+- [x] Corriger le type Mesure dans strapiTypes.ts (details au lieu de description, theme relation)
+- [x] Modifier la page Mesures.tsx pour utiliser theme.nom au lieu de priorite
+- [x] Tester l'affichage (page fonctionnelle, en attente de données Strapi)
 - [ ] Commit et push vers GitHub
 

@@ -38,11 +38,17 @@ export interface Priorite extends StrapiEntity {
   actions: string;
 }
 
+// Collection Type: themes
+export interface Theme extends StrapiEntity {
+  nom: string;
+  ordre: number;
+}
+
 // Collection Type: mesures
 export interface Mesure extends StrapiEntity {
   titre: string;
-  description: string;
-  priorite: string; // Nom de la priorité/thème
+  details: string;
+  theme: Theme; // Relation manyToOne avec Theme
   ordre: number;
 }
 

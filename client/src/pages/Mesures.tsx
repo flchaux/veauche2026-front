@@ -24,18 +24,18 @@ export default function Mesures() {
     loadMesures();
   }, []);
 
-  // Grouper les mesures par priorité
-  const mesuresParPriorite = mesures.reduce((acc, mesure) => {
-    const priorite = mesure.priorite || "Autres";
-    if (!acc[priorite]) {
-      acc[priorite] = [];
+  // Grouper les mesures par thème
+  const mesuresParTheme = mesures.reduce((acc, mesure) => {
+    const themeName = mesure.theme?.nom || "Autres";
+    if (!acc[themeName]) {
+      acc[themeName] = [];
     }
-    acc[priorite].push(mesure);
+    acc[themeName].push(mesure);
     return acc;
   }, {} as Record<string, Mesure[]>);
 
-  // Obtenir les priorités dans l'ordre
-  const priorites = Object.keys(mesuresParPriorite).sort();
+  // Obtenir les thèmes dans l'ordre
+  const themes = Object.keys(mesuresParTheme).sort();
 
   if (loading) {
     return (
@@ -88,36 +88,36 @@ export default function Mesures() {
               Nos Mesures pour Veauche
             </h1>
             <p className="text-lg text-muted-foreground">
-              Découvrez l'ensemble de nos propositions concrètes, organisées par priorité.
-              {priorites.length} priorités, {mesures.length} mesures pour transformer notre ville.
+              Découvrez l'ensemble de nos propositions concrètes, organisées par thème.
+              {themes.length} thèmes, {mesures.length} mesures pour transformer notre ville.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Mesures par Priorité */}
+      {/* Mesures par Thème */}
       <section className="py-16 bg-background">
         <div className="container">
           <div className="space-y-16">
-            {priorites.map((priorite, index) => {
-              const mesuresDeLaPriorite = mesuresParPriorite[priorite];
+            {themes.map((theme, index) => {
+              const mesuresDuTheme = mesuresParTheme[theme];
               
               return (
-                <div key={priorite} className="space-y-8">
-                  {/* Titre de la priorité */}
+                <div key={theme} className="space-y-8">
+                  {/* Titre du thème */}
                   <div className="text-center">
                     <div className="inline-block px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
-                      Priorité {index + 1}
+                      Thème {index + 1}
                     </div>
                     <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                      {priorite}
+                      {theme}
                     </h2>
                     <div className="w-24 h-1 bg-primary mx-auto rounded-full" />
                   </div>
 
                   {/* Grille des mesures */}
                   <div className="grid md:grid-cols-2 gap-6">
-                    {mesuresDeLaPriorite.map((mesure, mesureIndex) => (
+                    {mesuresDuTheme.map((mesure, mesureIndex) => (
                       <Card
                         key={mesure.id}
                         className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-lg"
@@ -136,7 +136,7 @@ export default function Mesures() {
                         </CardHeader>
                         <CardContent>
                           <p className="text-muted-foreground leading-relaxed">
-                            {mesure.description}
+                            {mesure.details}
                           </p>
                         </CardContent>
                       </Card>
