@@ -40,7 +40,8 @@ export interface Priorite extends StrapiEntity {
 
 // Collection Type: themes
 export interface Theme extends StrapiEntity {
-  nom: string;
+  titre: string;
+  intro: string;
   ordre: number;
 }
 

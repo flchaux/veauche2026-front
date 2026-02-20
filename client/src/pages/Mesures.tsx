@@ -26,11 +26,11 @@ export default function Mesures() {
 
   // Grouper les mesures par thème
   const mesuresParTheme = mesures.reduce((acc, mesure) => {
-    const themeName = mesure.theme?.nom || "Autres";
-    if (!acc[themeName]) {
-      acc[themeName] = [];
+    const themeKey = mesure.theme?.titre || "Autres";
+    if (!acc[themeKey]) {
+      acc[themeKey] = [];
     }
-    acc[themeName].push(mesure);
+    acc[themeKey].push(mesure);
     return acc;
   }, {} as Record<string, Mesure[]>);
 
@@ -99,19 +99,26 @@ export default function Mesures() {
       <section className="py-16 bg-background">
         <div className="container">
           <div className="space-y-16">
-            {themes.map((theme, index) => {
-              const mesuresDuTheme = mesuresParTheme[theme];
+            {themes.map((themeKey, index) => {
+              const mesuresDuTheme = mesuresParTheme[themeKey];
+              // Récupérer l'objet theme complet depuis la première mesure
+              const themeObj = mesuresDuTheme[0]?.theme;
               
               return (
-                <div key={theme} className="space-y-8">
+                <div key={themeKey} className="space-y-8">
                   {/* Titre du thème */}
-                  <div className="text-center">
+                  <div className="text-center max-w-3xl mx-auto">
                     <div className="inline-block px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
                       Thème {index + 1}
                     </div>
                     <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                      {theme}
+                      {themeKey}
                     </h2>
+                    {themeObj?.intro && (
+                      <p className="text-lg text-muted-foreground mb-6">
+                        {themeObj.intro}
+                      </p>
+                    )}
                     <div className="w-24 h-1 bg-primary mx-auto rounded-full" />
                   </div>
 

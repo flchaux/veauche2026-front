@@ -232,3 +232,8 @@
 - [x] Tester l'affichage (page fonctionnelle, en attente de données Strapi)
 - [ ] Commit et push vers GitHub
 
+## Ajout titre et intro au Theme
+- [x] Corriger le type Theme dans strapiTypes.ts (ajouter titre et intro)
+- [x] Modifier Mesures.tsx pour afficher theme.titre et theme.intro
+- [ ] Commit et push vers GitHub
+
