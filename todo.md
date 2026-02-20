@@ -251,5 +251,12 @@
 - [x] Supprimer le lien "Posez une question" du menu de navigation dans Equipe.tsx
 - [x] Modifier l'intro du formulaire dans Home.tsx pour l'adapter au contexte "poser une question"
 - [x] Tester les modifications (vérification visuelle OK)
+- [x] Commit et push vers GitHub
+
+## Remplacement contenu formulaire par statique
+- [x] Identifier les appels Strapi pour le formulaire dans Home.tsx
+- [x] Supprimer les appels à getSectionFormulaire()
+- [x] Remplacer par du contenu statique
+- [x] Tester les modifications (vérification visuelle OK)
 - [ ] Commit et push vers GitHub
 

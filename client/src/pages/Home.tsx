@@ -12,7 +12,6 @@ import {
   getPresentationCandidat,
   getSectionPriorites,
   getSectionEquipe,
-  getSectionFormulaire,
   getMethodeSection,
   getFooter,
   getStrapiImageUrl,
@@ -27,7 +26,6 @@ import type {
   PresentationCandidat,
   SectionPriorites,
   SectionEquipe,
-  SectionFormulaire,
   MethodeSection,
   Footer,
 } from "../../../shared/strapiTypes";
@@ -64,7 +62,6 @@ export default function Home() {
   const [sectionEquipeData, setSectionEquipeData] = useState<SectionEquipe | null>(null);
   const [membresData, setMembresData] = useState<MembreEquipe[]>([]);
   const [photosData, setPhotosData] = useState<PhotoVille[]>([]);
-  const [formulaireData, setFormulaireData] = useState<SectionFormulaire | null>(null);
   const [footerData, setFooterData] = useState<Footer | null>(null);
   const [parametresSite, setParametresSite] = useState<{afficher_bloc_rag: boolean, equipe_complete_disponible: boolean} | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -83,7 +80,6 @@ export default function Home() {
           sectionEquipe,
           membres,
           photos,
-          formulaire,
           footer,
           parametres
         ] = await Promise.all([
@@ -96,7 +92,6 @@ export default function Home() {
           getSectionEquipe(),
           getMembresEquipe(true), // Membres clés uniquement
           getPhotosVille(),
-          getSectionFormulaire(),
           getFooter(),
           getParametresSite()
         ]);
@@ -110,7 +105,6 @@ export default function Home() {
         setSectionEquipeData(sectionEquipe);
         setMembresData(membres);
         setPhotosData(photos);
-        setFormulaireData(formulaire);
         setFooterData(footer);
         setParametresSite(parametres);
       } catch (error) {
@@ -497,10 +491,10 @@ export default function Home() {
           <div className="container max-w-2xl">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                {formulaireData?.titre || "Posez vos questions"}
+                Posez vos questions
               </h2>
               <p className="text-lg opacity-90">
-                {formulaireData?.description || "Vous avez une question sur notre programme, nos propositions ou notre vision pour Veauche ? Nous sommes à votre écoute. Posez-nous vos questions, nous vous répondrons avec plaisir."}
+                Vous avez une question sur notre programme, nos propositions ou notre vision pour Veauche ? Nous sommes à votre écoute. Posez-nous vos questions, nous vous répondrons avec plaisir.
               </p>
             </div>
 
@@ -509,7 +503,7 @@ export default function Home() {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium mb-2">
-                      {formulaireData?.label_nom || "Votre nom"} *
+                      Votre nom *
                     </label>
                     <Input
                       id="name"
@@ -523,7 +517,7 @@ export default function Home() {
 
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium mb-2">
-                      {formulaireData?.label_email || "Votre email"} *
+                      Votre email *
                     </label>
                     <Input
                       id="email"
@@ -540,7 +534,7 @@ export default function Home() {
 
                   <div>
                     <label htmlFor="opinion" className="block text-sm font-medium mb-2">
-                      {formulaireData?.label_question || "Votre question"} *
+                      Votre question *
                     </label>
                     <Textarea
                       id="opinion"
@@ -549,7 +543,7 @@ export default function Home() {
                       required
                       rows={5}
                       className="w-full"
-                      placeholder={formulaireData?.placeholder_question || "Quelle question souhaitez-vous poser à Florian Chaux et son équipe ?"}
+                      placeholder="Quelle question souhaitez-vous poser à Florian Chaux et son équipe ?"
                     />
                   </div>
 
@@ -567,13 +561,13 @@ export default function Home() {
                     ) : (
                       <>
                         <Send className="mr-2 h-5 w-5" />
-                        {formulaireData?.texte_bouton || "Envoyer ma question"}
+                        Envoyer ma question
                       </>
                     )}
                   </Button>
 
                   <p className="text-xs text-muted-foreground text-center">
-                    {formulaireData?.message_confidentialite || "En soumettant ce formulaire, vous acceptez d'être recontacté par l'équipe \"Veauche Mérite Mieux\"."}
+                    En soumettant ce formulaire, vous acceptez d'être recontacté par l'équipe "Veauche mérite mieux".
                   </p>
                 </form>
               </CardContent>
