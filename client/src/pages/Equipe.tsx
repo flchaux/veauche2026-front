@@ -123,7 +123,7 @@ export default function Equipe() {
           <div className="container">
             <div className="text-center max-w-2xl mx-auto">
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
-                Vous aussi, rejoignez-nous !
+                Vous avez une question à notre équipe ?
               </h2>
               <p className="text-lg text-muted-foreground mb-8">
                 Vous partagez nos valeurs et notre vision pour Veauche ? 

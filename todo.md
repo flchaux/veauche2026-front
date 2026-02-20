@@ -270,5 +270,10 @@
 - [x] Identifier tous les gradients restants dans le header (CSS, inline styles)
 - [x] Supprimer tous les gradients dans Home.tsx et Equipe.tsx
 - [x] Tester les modifications (vérification visuelle OK)
-- [ ] Commit et push vers GitHub
+- [x] Commit et push vers GitHub
 
+
+## Modification du texte CTA dans la page Equipe
+- [x] Remplacer "Vous aussi, rejoignez-nous !" par "Vous avez une question à notre équipe ?"
+- [x] Vérifier visuellement le changement
+- [ ] Commit et push vers GitHub
