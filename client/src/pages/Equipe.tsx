@@ -47,8 +47,8 @@ export default function Equipe() {
             <a href="/#equipe" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
               Équipe
             </a>
-            <a href="/#avis" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
-              Donnez votre avis
+            <a href="/#vos-questions" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+              Posez une question
             </a>
           </nav>
         </div>
@@ -133,10 +133,10 @@ export default function Equipe() {
                 Vous souhaitez vous engager à nos côtés ? Contactez-nous !
               </p>
               <a 
-                href="/#avis" 
+                href="/#vos-questions" 
                 className="inline-flex items-center justify-center rounded-md bg-primary px-8 py-3 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90"
               >
-                Donnez votre avis
+                Posez une question
               </a>
             </div>
           </div>

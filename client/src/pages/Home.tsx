@@ -145,13 +145,13 @@ export default function Home() {
             name: formData.name,
             email: formData.email,
             message: formData.opinion,
-            source: 'avis'
+            source: 'question'
           }
         })
       });
       
       if (response.ok) {
-        toast.success("Merci pour votre avis ! Nous vous recontacterons bient\u00f4t.");
+        toast.success("Merci pour votre question ! Nous vous répondrons bientôt.");
         setFormData({ name: "", email: "", opinion: "" });
       } else {
         toast.error("❌ Une erreur est survenue. Veuillez réessayer.");
@@ -192,12 +192,12 @@ export default function Home() {
             <a href="#equipe" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               L'équipe
             </a>
-            <a href="#votre-avis" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              Votre avis
+            <a href="#vos-questions" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+              Vos questions
             </a>
           </nav>
           <Button asChild className="bg-primary hover:bg-primary/90">
-            <a href="#votre-avis">Donnez votre avis</a>
+            <a href="#vos-questions">Posez une question</a>
           </Button>
         </div>
       </header>
@@ -231,12 +231,12 @@ export default function Home() {
                     {heroData?.titre || "Ensemble, redonnons de l'air à Veauche"}
                   </h1>
                   <p className="text-lg text-muted-foreground mb-6">
-                    {heroData?.description || "Les élections municipales de 2026 sont l'occasion de choisir l'avenir de notre ville. Nous voulons une Veauche plus respirable, plus solidaire, et mieux gérée. Votre avis compte."}
+                    {heroData?.description || "Les élections municipales de 2026 sont l'occasion de choisir l'avenir de notre ville. Nous voulons une Veauche plus respirable, plus solidaire, et mieux gérée. Vos questions comptent."}
                   </p>
                   <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
-                    <a href="#votre-avis">
+                    <a href="#vos-questions">
                       <MessageSquare className="mr-2 h-5 w-5" />
-                      {heroData?.texte_bouton || "Donnez votre avis"}
+                      {heroData?.texte_bouton || "Posez une question"}
                     </a>
                   </Button>
                 </CardContent>
@@ -496,11 +496,11 @@ export default function Home() {
         </section>
 
         {/* Section Formulaire */}
-        <section id="votre-avis" className="py-20 bg-primary text-primary-foreground">
+        <section id="vos-questions" className="py-20 bg-primary text-primary-foreground">
           <div className="container max-w-2xl">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                {formulaireData?.titre || "Votre avis compte"}
+                {formulaireData?.titre || "Posez vos questions"}
               </h2>
               <p className="text-lg opacity-90">
                 {formulaireData?.description || "Nous voulons construire le programme avec vous, les Veauchois. Partagez-nous vos préoccupations, vos idées, vos attentes pour notre ville. Ensemble, faisons de Veauche une ville qui mérite mieux."}
@@ -543,7 +543,7 @@ export default function Home() {
 
                   <div>
                     <label htmlFor="opinion" className="block text-sm font-medium mb-2">
-                      {formulaireData?.label_avis || "Votre avis sur Veauche"} *
+                      {formulaireData?.label_question || "Votre question"} *
                     </label>
                     <Textarea
                       id="opinion"
@@ -552,7 +552,7 @@ export default function Home() {
                       required
                       rows={5}
                       className="w-full"
-                      placeholder={formulaireData?.placeholder_avis || "Partagez vos idées, préoccupations, ou suggestions pour améliorer notre ville..."}
+                      placeholder={formulaireData?.placeholder_question || "Quelle question souhaitez-vous poser à Florian Chaux et son équipe ?"}
                     />
                   </div>
 
@@ -570,7 +570,7 @@ export default function Home() {
                     ) : (
                       <>
                         <Send className="mr-2 h-5 w-5" />
-                        {formulaireData?.texte_bouton || "Envoyer mon avis"}
+                        {formulaireData?.texte_bouton || "Envoyer ma question"}
                       </>
                     )}
                   </Button>
@@ -605,7 +605,7 @@ export default function Home() {
                 <li><a href="#priorites" className="text-muted-foreground hover:text-foreground transition-colors">Nos priorités</a></li>
                 <li><a href="#qui-sommes-nous" className="text-muted-foreground hover:text-foreground transition-colors">Qui sommes-nous</a></li>
                 <li><a href="#equipe" className="text-muted-foreground hover:text-foreground transition-colors">L'équipe</a></li>
-                <li><a href="#votre-avis" className="text-muted-foreground hover:text-foreground transition-colors">Votre avis</a></li>
+                <li><a href="#vos-questions" className="text-muted-foreground hover:text-foreground transition-colors">Vos questions</a></li>
               </ul>
             </div>
 
@@ -615,7 +615,7 @@ export default function Home() {
                 <li>{footerData?.ville || "Veauche, Loire (42)"}</li>
                 <li>{footerData?.annee_election || "Élections municipales 2026"}</li>
                 <li className="pt-2">
-                  <a href="#votre-avis" className="text-primary hover:underline">
+                  <a href="#vos-questions" className="text-primary hover:underline">
                     {footerData?.texte_contact || "Nous contacter"}
                   </a>
                 </li>

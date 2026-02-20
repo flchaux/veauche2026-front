@@ -117,8 +117,8 @@ export interface SectionFormulaire extends StrapiEntity {
   description: string;
   label_nom: string;
   label_email: string;
-  label_avis: string;
-  placeholder_avis: string;
+  label_question: string;
+  placeholder_question: string;
   texte_bouton: string;
   message_confidentialite: string;
 }

@@ -230,10 +230,19 @@
 - [x] Corriger le type Mesure dans strapiTypes.ts (details au lieu de description, theme relation)
 - [x] Modifier la page Mesures.tsx pour utiliser theme.nom au lieu de priorite
 - [x] Tester l'affichage (page fonctionnelle, en attente de données Strapi)
-- [ ] Commit et push vers GitHub
+- [x] Commit et push vers GitHub
 
 ## Ajout titre et intro au Theme
 - [x] Corriger le type Theme dans strapiTypes.ts (ajouter titre et intro)
 - [x] Modifier Mesures.tsx pour afficher theme.titre et theme.intro
+- [x] Commit et push vers GitHub
+
+## Remplacement "avis" par "poser une question"
+- [x] Lire le PDF programme pour comprendre le contexte
+- [x] Identifier tous les endroits mentionnant 'avis' sur le site (45 occurrences dans 4 fichiers)
+- [x] Remplacer dans Home.tsx (fichier principal)
+- [x] Mettre à jour le type SectionFormulaire dans strapiTypes.ts
+- [x] Remplacer dans Equipe.tsx
+- [x] Tester les modifications (vérification visuelle OK)
 - [ ] Commit et push vers GitHub
 
