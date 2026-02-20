@@ -34,7 +34,7 @@ export default function Equipe() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header avec navigation */}
-      <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
+      <header className="sticky top-0 z-50 bg-background border-b">
         <div className="container flex h-16 items-center justify-between">
           <a href="/" className="flex items-center gap-3">
             <img src={APP_LOGO} alt="Logo" className="h-10 w-auto" />
@@ -53,7 +53,7 @@ export default function Equipe() {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="py-20 bg-gradient-to-br from-primary/5 via-background to-accent/5">
+        <section className="py-20 bg-background">
           <div className="container">
             <div className="text-center max-w-3xl mx-auto">
               <h1 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
@@ -119,7 +119,7 @@ export default function Equipe() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-20 bg-gradient-to-br from-primary/5 via-background to-accent/5">
+        <section className="py-20 bg-background">
           <div className="container">
             <div className="text-center max-w-2xl mx-auto">
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">

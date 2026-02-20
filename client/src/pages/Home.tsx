@@ -211,12 +211,12 @@ export default function Home() {
                 className="w-auto h-32 md:w-[512px] md:h-auto object-contain"
               />
             </div>
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80" />
+
           </div>
           <div className="container relative -mt-24 pb-12">
             <div className="grid lg:grid-cols-2 gap-6 items-start">
               {/* Bloc Hero à gauche */}
-              <Card className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/90 border-2">
+              <Card className="bg-background border-2">
                 <CardContent className="p-8">
                   <h1 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
                     {heroData?.titre || "Ensemble, redonnons de l'air à Veauche"}
@@ -273,7 +273,7 @@ export default function Home() {
               </div>
               <div className="order-1 lg:order-2">
                 <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl" />
+
                   <img 
                     src={presentationData?.photo_candidat?.url ?
                       getStrapiImageUrl(presentationData?.photo_candidat?.url) :
@@ -337,7 +337,7 @@ export default function Home() {
                     alt={photo?.legende} 
                     className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
                   />
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 p-4">
                     <p className="text-white font-medium">{photo?.legende}</p>
                   </div>
                 </div>
