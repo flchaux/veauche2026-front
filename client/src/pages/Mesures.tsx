@@ -1,19 +1,54 @@
 import { useEffect, useState } from "react";
 import { getMesures } from "@/lib/strapi";
-import type { Mesure } from "../../../shared/strapiTypes";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2 } from "lucide-react";
+import type { Mesure, PrioriteProgramme } from "../../../shared/strapiTypes";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Loader2, ThumbsUp, ThumbsDown } from "lucide-react";
+import { submitVote, addCommentToVote, type VoteType } from "@/lib/voteApi";
+import { hasVotedForMesure } from "@/lib/voteCookie";
+import { toast } from "sonner";
+import { getStrapiImageUrl } from "@/lib/strapi";
+
+interface VoteState {
+  voted: boolean;
+  voteType?: VoteType;
+  voteId?: number;
+  showFeedback: boolean;
+  feedback: string;
+  animating: boolean;
+}
+
+interface PrioriteAvecMesures {
+  priorite: PrioriteProgramme;
+  mesures: Mesure[];
+}
 
 export default function Mesures() {
   const [mesures, setMesures] = useState<Mesure[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  
+  // État des votes par mesure
+  const [voteStates, setVoteStates] = useState<Record<number, VoteState>>({});
 
   useEffect(() => {
     async function loadMesures() {
       try {
         const data = await getMesures();
         setMesures(data);
+        
+        // Initialiser l'état des votes
+        const initialStates: Record<number, VoteState> = {};
+        data.forEach(mesure => {
+          initialStates[mesure.id] = {
+            voted: hasVotedForMesure(mesure.id),
+            showFeedback: false,
+            feedback: "",
+            animating: false
+          };
+        });
+        setVoteStates(initialStates);
       } catch (err) {
         setError("Erreur lors du chargement des mesures");
         console.error(err);
@@ -24,18 +59,100 @@ export default function Mesures() {
     loadMesures();
   }, []);
 
-  // Grouper les mesures par thème
-  const mesuresParTheme = mesures.reduce((acc, mesure) => {
-    const themeKey = mesure.theme?.titre || "Autres";
-    if (!acc[themeKey]) {
-      acc[themeKey] = [];
+  const handleVote = async (mesureId: number, voteType: VoteType) => {
+    const currentState = voteStates[mesureId];
+    
+    if (currentState?.voted) {
+      toast.error("Vous avez déjà voté pour cette mesure");
+      return;
     }
-    acc[themeKey].push(mesure);
-    return acc;
-  }, {} as Record<string, Mesure[]>);
 
-  // Obtenir les thèmes dans l'ordre
-  const themes = Object.keys(mesuresParTheme).sort();
+    // Animation
+    setVoteStates(prev => ({
+      ...prev,
+      [mesureId]: { ...prev[mesureId], animating: true }
+    }));
+
+    // Attendre un peu pour l'animation
+    await new Promise(resolve => setTimeout(resolve, 300));
+
+    const result = await submitVote(mesureId, voteType);
+
+    if (result.success) {
+      setVoteStates(prev => ({
+        ...prev,
+        [mesureId]: {
+          ...prev[mesureId],
+          voted: true,
+          voteType,
+          voteId: result.voteId,
+          showFeedback: voteType === 'dislike',
+          animating: false
+        }
+      }));
+
+      if (voteType === 'like') {
+        toast.success("Merci pour votre soutien !");
+      }
+    } else {
+      setVoteStates(prev => ({
+        ...prev,
+        [mesureId]: { ...prev[mesureId], animating: false }
+      }));
+      toast.error(result.message || "Une erreur est survenue");
+    }
+  };
+
+  const handleFeedbackSubmit = async (mesureId: number) => {
+    const state = voteStates[mesureId];
+    
+    if (!state?.voteId || !state.feedback.trim()) {
+      toast.error("Veuillez saisir un commentaire");
+      return;
+    }
+
+    const result = await addCommentToVote(state.voteId, state.feedback);
+
+    if (result.success) {
+      toast.success("Merci pour votre retour ! Nous prenons en compte vos remarques.");
+      setVoteStates(prev => ({
+        ...prev,
+        [mesureId]: {
+          ...prev[mesureId],
+          showFeedback: false,
+          feedback: ""
+        }
+      }));
+    } else {
+      toast.error(result.message || "Une erreur est survenue");
+    }
+  };
+
+  // Grouper les mesures par priorité
+  const mesuresParPriorite: PrioriteAvecMesures[] = [];
+  const prioritesMap = new Map<number, PrioriteAvecMesures>();
+
+  mesures.forEach(mesure => {
+    if (mesure.priorite_programme) {
+      const prioriteId = mesure.priorite_programme.id;
+      if (!prioritesMap.has(prioriteId)) {
+        prioritesMap.set(prioriteId, {
+          priorite: mesure.priorite_programme,
+          mesures: []
+        });
+      }
+      prioritesMap.get(prioriteId)!.mesures.push(mesure);
+    }
+  });
+
+  // Convertir en tableau et trier par ordre
+  mesuresParPriorite.push(...Array.from(prioritesMap.values()));
+  mesuresParPriorite.sort((a, b) => (a.priorite.ordre || 0) - (b.priorite.ordre || 0));
+
+  // Trier les mesures dans chaque priorité
+  mesuresParPriorite.forEach(item => {
+    item.mesures.sort((a, b) => (a.ordre || 0) - (b.ordre || 0));
+  });
 
   if (loading) {
     return (
@@ -88,66 +205,195 @@ export default function Mesures() {
               Nos Mesures pour Veauche
             </h1>
             <p className="text-lg text-muted-foreground">
-              Découvrez l'ensemble de nos propositions concrètes, organisées par thème.
-              {themes.length} thèmes, {mesures.length} mesures pour transformer notre ville.
+              Découvrez l'ensemble de nos propositions concrètes, organisées par priorité.
+              {mesuresParPriorite.length} priorités, {mesures.length} mesures pour transformer notre ville.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Mesures par Thème */}
+      {/* Mesures par Priorité */}
       <section className="py-16 bg-background">
         <div className="container">
-          <div className="space-y-16">
-            {themes.map((themeKey, index) => {
-              const mesuresDuTheme = mesuresParTheme[themeKey];
-              // Récupérer l'objet theme complet depuis la première mesure
-              const themeObj = mesuresDuTheme[0]?.theme;
+          <div className="space-y-20">
+            {mesuresParPriorite.map((item, index) => {
+              const { priorite, mesures: mesuresDeLaPriorite } = item;
               
               return (
-                <div key={themeKey} className="space-y-8">
-                  {/* Titre du thème */}
-                  <div className="text-center max-w-3xl mx-auto">
-                    <div className="inline-block px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
-                      Thème {index + 1}
+                <div key={priorite.id} className="space-y-8">
+                  {/* En-tête de la priorité */}
+                  <div className="space-y-6">
+                    {/* Badge numéro */}
+                    <div className="flex justify-center">
+                      <div className="inline-block px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-semibold">
+                        Priorité {index + 1}
+                      </div>
                     </div>
-                    <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                      {themeKey}
+
+                    {/* Titre */}
+                    <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center capitalize">
+                      {priorite.titre}
                     </h2>
-                    {themeObj?.intro && (
-                      <p className="text-lg text-muted-foreground mb-6">
-                        {themeObj.intro}
-                      </p>
+
+                    {/* Intro dans un bloc séparé */}
+                    {priorite.intro && (
+                      <div className="max-w-3xl mx-auto">
+                        <Card className="bg-secondary/20 border-primary/20">
+                          <CardContent className="p-6">
+                            <p className="text-base text-muted-foreground leading-relaxed">
+                              {priorite.intro}
+                            </p>
+                          </CardContent>
+                        </Card>
+                      </div>
                     )}
+
+                    {/* Séparateur */}
                     <div className="w-24 h-1 bg-primary mx-auto rounded-full" />
                   </div>
 
-                  {/* Grille des mesures */}
-                  <div className="grid md:grid-cols-2 gap-6">
-                    {mesuresDuTheme.map((mesure, mesureIndex) => (
-                      <Card
-                        key={mesure.id}
-                        className="border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-lg"
-                      >
-                        <CardHeader>
-                          <div className="flex items-start gap-4">
-                            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                              <span className="text-primary font-bold text-lg">
-                                {mesureIndex + 1}
-                              </span>
+                  {/* Liste des mesures */}
+                  <div className="max-w-5xl mx-auto space-y-6">
+                    {mesuresDeLaPriorite.map((mesure) => {
+                      const voteState = voteStates[mesure.id] || {
+                        voted: false,
+                        showFeedback: false,
+                        feedback: "",
+                        animating: false
+                      };
+
+                      // Vérifier si la priorité a des images
+                      const hasImage = priorite.image && priorite.image.length > 0;
+                      const imageUrl = hasImage ? getStrapiImageUrl(priorite.image[0].url) : null;
+
+                      return (
+                        <Card
+                          key={mesure.id}
+                          className="border-2 hover:border-primary/30 transition-all duration-300"
+                        >
+                          <CardContent className="p-6">
+                            <div className="flex gap-6 items-start">
+                              {/* Numéro de la mesure */}
+                              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                                <span className="text-primary font-bold text-lg">
+                                  {mesure.ordre}
+                                </span>
+                              </div>
+
+                              {/* Contenu de la mesure */}
+                              <div className="flex-1 space-y-4">
+                                {/* Titre et image sur la même ligne */}
+                                <div className="flex gap-4 items-center">
+                                  <h3 className="text-xl font-semibold text-foreground flex-1">
+                                    {mesure.titre}
+                                  </h3>
+                                  {imageUrl && (
+                                    <img
+                                      src={imageUrl}
+                                      alt={priorite.titre}
+                                      className="w-16 h-16 object-cover rounded-lg flex-shrink-0"
+                                    />
+                                  )}
+                                </div>
+
+                                {/* Détails */}
+                                {mesure.details && (
+                                  <p className="text-muted-foreground leading-relaxed">
+                                    {mesure.details}
+                                  </p>
+                                )}
+
+                                {/* Boutons de vote */}
+                                {!voteState.voted && (
+                                  <div className="flex items-center gap-3 pt-4 border-t">
+                                    <span className="text-sm text-muted-foreground">
+                                      Votre avis :
+                                    </span>
+                                    <div className="flex gap-2">
+                                      <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => handleVote(mesure.id, 'like')}
+                                        disabled={voteState.animating}
+                                        className={`transition-all duration-300 hover:bg-green-50 hover:border-green-500 hover:text-green-600 ${
+                                          voteState.animating && voteState.voteType === 'like'
+                                            ? 'animate-bounce bg-green-50 border-green-500 text-green-600 scale-110'
+                                            : ''
+                                        }`}
+                                      >
+                                        <ThumbsUp className="h-4 w-4" />
+                                      </Button>
+                                      <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => handleVote(mesure.id, 'dislike')}
+                                        disabled={voteState.animating}
+                                        className={`transition-all duration-300 hover:bg-red-50 hover:border-red-500 hover:text-red-600 ${
+                                          voteState.animating && voteState.voteType === 'dislike'
+                                            ? 'animate-bounce bg-red-50 border-red-500 text-red-600 scale-110'
+                                            : ''
+                                        }`}
+                                      >
+                                        <ThumbsDown className="h-4 w-4" />
+                                      </Button>
+                                    </div>
+                                  </div>
+                                )}
+
+                                {/* Message après vote positif */}
+                                {voteState.voted && voteState.voteType === 'like' && (
+                                  <div className="flex items-center gap-2 pt-4 border-t text-green-600">
+                                    <ThumbsUp className="h-4 w-4" />
+                                    <span className="text-sm font-medium">
+                                      Merci pour votre soutien !
+                                    </span>
+                                  </div>
+                                )}
+
+                                {/* Formulaire de feedback pour vote négatif */}
+                                {voteState.showFeedback && (
+                                  <div className="space-y-3 pt-4 border-t">
+                                    <p className="text-sm text-muted-foreground">
+                                      Pouvez-vous nous expliquer pourquoi cette mesure ne vous convient pas ?
+                                    </p>
+                                    <Textarea
+                                      placeholder="Votre commentaire..."
+                                      value={voteState.feedback}
+                                      onChange={(e) =>
+                                        setVoteStates(prev => ({
+                                          ...prev,
+                                          [mesure.id]: {
+                                            ...prev[mesure.id],
+                                            feedback: e.target.value
+                                          }
+                                        }))
+                                      }
+                                      className="min-h-[80px]"
+                                    />
+                                    <Button
+                                      onClick={() => handleFeedbackSubmit(mesure.id)}
+                                      size="sm"
+                                    >
+                                      Envoyer mon avis
+                                    </Button>
+                                  </div>
+                                )}
+
+                                {/* Message après feedback envoyé */}
+                                {voteState.voted && voteState.voteType === 'dislike' && !voteState.showFeedback && (
+                                  <div className="flex items-center gap-2 pt-4 border-t text-muted-foreground">
+                                    <ThumbsDown className="h-4 w-4" />
+                                    <span className="text-sm">
+                                      Merci pour votre retour
+                                    </span>
+                                  </div>
+                                )}
+                              </div>
                             </div>
-                            <CardTitle className="text-xl leading-tight">
-                              {mesure.titre}
-                            </CardTitle>
-                          </div>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-muted-foreground leading-relaxed">
-                            {mesure.details}
-                          </p>
-                        </CardContent>
-                      </Card>
-                    ))}
+                          </CardContent>
+                        </Card>
+                      );
+                    })}
                   </div>
                 </div>
               );
@@ -157,13 +403,11 @@ export default function Mesures() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t bg-secondary/30 py-12 mt-auto">
-        <div className="container">
-          <div className="text-center">
-            <p className="text-muted-foreground">
-              © 2026 Veauche mérite mieux - Tous droits réservés
-            </p>
-          </div>
+      <footer className="bg-secondary/30 py-8 mt-auto">
+        <div className="container text-center">
+          <p className="text-sm text-muted-foreground">
+            © 2026 Veauche mérite mieux - Tous droits réservés
+          </p>
         </div>
       </footer>
     </div>

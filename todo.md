@@ -277,3 +277,28 @@
 - [x] Remplacer "Vous aussi, rejoignez-nous !" par "Vous avez une question à notre équipe ?"
 - [x] Vérifier visuellement le changement
 - [x] Commit et push vers GitHub
+
+## Système de vote pour les mesures
+- [ ] Définir la structure de la collection Strapi "votes-mesures" (mesure_id, vote_type, ip, cookie_id, commentaire, createdAt)
+- [ ] Créer l'API de vote côté client avec validation cookie et IP
+- [ ] Implémenter l'UI de vote avec pouces vert/rouge dans Mesures.tsx
+- [ ] Ajouter les animations sur les pouces cliqués
+- [ ] Ajouter le formulaire de feedback pour les votes négatifs
+- [ ] Tester le système de vote complet
+- [ ] Commit et créer un checkpoint
+
+## Insertion des thèmes et mesures dans Strapi
+- [ ] Exécuter le SQL pour insérer les 5 thèmes et 44 mesures
+- [ ] Vérifier que les données sont bien insérées dans Strapi
+- [ ] Tester la page /mesures avec les nouvelles données
+
+## Adaptation du script d'insertion pour nouvelle structure Strapi
+- [ ] Créer le script avec priorite_programme (oneToOne) au lieu de theme (manyToMany)
+- [ ] Exécuter le script pour insérer les 5 priorités et 44 mesures
+- [ ] Vérifier l'affichage sur /mesures
+
+## Refonte page Mesures avec nouvelle structure
+- [ ] Adapter les types TypeScript pour priorite_programme (oneToOne)
+- [ ] Refondre Mesures.tsx : titre priorité + intro dans bloc séparé + liste mesures avec images
+- [ ] Tester l'affichage sur /mesures
+- [ ] Commit et checkpoint

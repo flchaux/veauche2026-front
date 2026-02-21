@@ -12,7 +12,15 @@ import type {
   SectionFormulaire,
   MethodeSection,
   Footer,
+  PrioriteProgramme,
 } from '../../../shared/strapiTypes';
+// Collection Type: priorites-programme
+export async function getPrioritesProgramme(): Promise<PrioriteProgramme[]> {
+  const response = await fetchStrapi<StrapiResponse<PrioriteProgramme[]>>(
+    "priorites-programme?populate=*&sort=ordre:asc"
+  );
+  return response?.data || [];
+}
 
 // Variables d'environnement Vite (côté client)
 const STRAPI_URL = import.meta.env.VITE_STRAPI_URL || 'https://veauche2026-strapi.onrender.com';
@@ -20,7 +28,7 @@ const STRAPI_TOKEN = import.meta.env.VITE_STRAPI_TOKEN || 'b898956bd2e7bd8cfe2da
 
 async function fetchStrapi<T>(endpoint: string): Promise<T | null> {
   const url = `${STRAPI_URL}/api/${endpoint}`;
-  
+
   try {
     const response = await fetch(url, {
       headers: {
@@ -129,8 +137,8 @@ export async function getFooter(): Promise<Footer | null> {
   return response?.data || null;
 }
 
-export async function getParametresSite(): Promise<{afficher_bloc_rag: boolean, equipe_complete_disponible: boolean} | null> {
-  const response = await fetchStrapi<StrapiResponse<{afficher_bloc_rag: boolean, equipe_complete_disponible: boolean}>>(
+export async function getParametresSite(): Promise<{ afficher_bloc_rag: boolean, equipe_complete_disponible: boolean } | null> {
+  const response = await fetchStrapi<StrapiResponse<{ afficher_bloc_rag: boolean, equipe_complete_disponible: boolean }>>(
     "parametres-site"
   );
   return response?.data || null;

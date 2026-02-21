@@ -1,3 +1,10 @@
+// Collection Type: priorites-programme
+export interface PrioriteProgramme extends StrapiEntity {
+  titre: string;
+  intro: string;
+  image: StrapiImage[];
+  ordre: number;
+}
 // Types pour Strapi v5 (structure sans attributes)
 
 export interface StrapiImage {
@@ -49,7 +56,7 @@ export interface Theme extends StrapiEntity {
 export interface Mesure extends StrapiEntity {
   titre: string;
   details: string;
-  theme: Theme; // Relation manyToOne avec Theme
+  priorite_programme: PrioriteProgramme; // Relation oneToOne avec PrioriteProgramme
   ordre: number;
 }
 
