@@ -60,8 +60,8 @@ export async function submitVote(
       },
       body: JSON.stringify({
         data: {
-          mesure_id: mesureId,
-          vote_type: voteType,
+          mesure: { connect: [{ id: mesureId }] },
+          vote_ype: voteType,
           ip_address: ipAddress,
           cookie_id: cookieId
         }

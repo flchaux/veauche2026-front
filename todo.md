@@ -302,3 +302,15 @@
 - [ ] Refondre Mesures.tsx : titre priorité + intro dans bloc séparé + liste mesures avec images
 - [ ] Tester l'affichage sur /mesures
 - [ ] Commit et checkpoint
+
+## Adaptation et test du système de vote
+- [ ] Adapter voteApi.ts pour utiliser vote_ype au lieu de vote_type
+- [ ] Vérifier l'intégration dans Mesures.tsx
+- [ ] Tester les votes (like/dislike) avec animations
+- [ ] Tester le formulaire de feedback pour les votes négatifs
+- [ ] Vérifier la validation par cookie et IP
+
+## Correction du système de vote pour Strapi 5
+- [x] Corriger voteApi.ts pour utiliser les relations Strapi 5 (connect au lieu de mesure_id)
+- [x] Tester le vote positif et négatif
+- [ ] Vérifier l'envoi du commentaire (erreur 404 - permissions à vérifier)
