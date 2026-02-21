@@ -223,28 +223,19 @@ export default function Mesures() {
                 <div key={priorite.id} className="space-y-8">
                   {/* En-tête de la priorité */}
                   <div className="space-y-6">
-                    {/* Badge numéro */}
-                    <div className="flex justify-center">
-                      <div className="inline-block px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-semibold">
-                        Priorité {index + 1}
-                      </div>
-                    </div>
-
                     {/* Titre */}
                     <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center capitalize">
                       {priorite.titre}
                     </h2>
 
-                    {/* Intro dans un bloc séparé */}
+                    {/* Intro dans un bloc coloré */}
                     {priorite.intro && (
                       <div className="max-w-3xl mx-auto">
-                        <Card className="bg-secondary/20 border-primary/20">
-                          <CardContent className="p-6">
-                            <p className="text-base text-muted-foreground leading-relaxed">
-                              {priorite.intro}
-                            </p>
-                          </CardContent>
-                        </Card>
+                        <div className="bg-[#0D6EB2] border-2 border-[#DF9F14] rounded-lg p-8 shadow-lg">
+                          <p className="text-lg text-white leading-relaxed text-center">
+                            {priorite.intro}
+                          </p>
+                        </div>
                       </div>
                     )}
 

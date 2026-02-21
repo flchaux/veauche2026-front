@@ -314,3 +314,9 @@
 - [x] Corriger voteApi.ts pour utiliser les relations Strapi 5 (connect au lieu de mesure_id)
 - [x] Tester le vote positif et négatif
 - [ ] Vérifier l'envoi du commentaire (erreur 404 - permissions à vérifier)
+
+## Stylisation des priorités dans page Mesures
+- [x] Supprimer la numérotation "Priorité 1, 2, 3..."
+- [x] Styliser l'intro avec couleurs de la charte (blanc sur bleu avec bordure jaune)
+- [x] Tester le rendu visuel
+- [ ] Commit et push
