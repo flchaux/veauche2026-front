@@ -4,7 +4,8 @@ import type { Mesure, PrioriteProgramme } from "../../../shared/strapiTypes";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2, ThumbsUp, ThumbsDown } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Loader2, ThumbsUp, ThumbsDown, Send } from "lucide-react";
 import { submitVote, addCommentToVote, type VoteType } from "@/lib/voteApi";
 import { hasVotedForMesure } from "@/lib/voteCookie";
 import { toast } from "sonner";
@@ -31,6 +32,14 @@ export default function Mesures() {
   
   // État des votes par mesure
   const [voteStates, setVoteStates] = useState<Record<number, VoteState>>({});
+  
+  // État du formulaire de contact
+  const [contactForm, setContactForm] = useState({
+    name: "",
+    email: "",
+    message: ""
+  });
+  const [isSubmittingContact, setIsSubmittingContact] = useState(false);
 
   useEffect(() => {
     async function loadMesures() {
@@ -125,6 +134,47 @@ export default function Mesures() {
       }));
     } else {
       toast.error(result.message || "Une erreur est survenue");
+    }
+  };
+
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!contactForm.name || !contactForm.email || !contactForm.message) {
+      toast.error("Veuillez remplir tous les champs");
+      return;
+    }
+
+    setIsSubmittingContact(true);
+    
+    try {
+      const response = await fetch(`${import.meta.env.VITE_STRAPI_URL}/api/email-contacts`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_STRAPI_TOKEN}`
+        },
+        body: JSON.stringify({
+          data: {
+            name: contactForm.name,
+            email: contactForm.email,
+            message: contactForm.message,
+            source: 'programme'
+          }
+        })
+      });
+      
+      if (response.ok) {
+        toast.success("Merci pour votre question ! Nous vous répondrons bientôt.");
+        setContactForm({ name: "", email: "", message: "" });
+      } else {
+        toast.error("❌ Une erreur est survenue. Veuillez réessayer.");
+      }
+    } catch (error) {
+      console.error('Erreur:', error);
+      toast.error("❌ Une erreur est survenue. Veuillez réessayer.");
+    } finally {
+      setIsSubmittingContact(false);
     }
   };
 
@@ -390,6 +440,96 @@ export default function Mesures() {
               );
             })}
           </div>
+        </div>
+      </section>
+
+      {/* Section Donnez votre avis */}
+      <section className="py-20 bg-background">
+        <div className="container max-w-3xl">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
+              Vous avez une question ?
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Posez-nous vos questions sur notre programme ou sur notre vision pour Veauche.
+              Nous vous répondrons personnellement.
+            </p>
+          </div>
+
+          <Card className="bg-background text-foreground">
+            <CardContent className="p-8">
+              <form onSubmit={handleContactSubmit} className="space-y-6">
+                <div>
+                  <label htmlFor="contact-name" className="block text-sm font-medium mb-2">
+                    Votre nom *
+                  </label>
+                  <Input
+                    id="contact-name"
+                    type="text"
+                    value={contactForm.name}
+                    onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
+                    required
+                    className="w-full"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="contact-email" className="block text-sm font-medium mb-2">
+                    Votre email *
+                  </label>
+                  <Input
+                    id="contact-email"
+                    type="email"
+                    value={contactForm.email}
+                    onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
+                    required
+                    className="w-full"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Votre email nous permet de vous recontacter et de vous tenir informé de notre campagne.
+                  </p>
+                </div>
+
+                <div>
+                  <label htmlFor="contact-message" className="block text-sm font-medium mb-2">
+                    Votre question *
+                  </label>
+                  <Textarea
+                    id="contact-message"
+                    value={contactForm.message}
+                    onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                    required
+                    rows={5}
+                    className="w-full"
+                    placeholder="Quelle question souhaitez-vous poser à Florian Chaux et son équipe ?"
+                  />
+                </div>
+
+                <Button 
+                  type="submit" 
+                  size="lg" 
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+                  disabled={isSubmittingContact}
+                >
+                  {isSubmittingContact ? (
+                    <>
+                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                      Envoi en cours...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="mr-2 h-5 w-5" />
+                      Envoyer ma question
+                    </>
+                  )}
+                </Button>
+
+                <p className="text-xs text-muted-foreground text-center">
+                  En soumettant ce formulaire, vous acceptez d'être recontacté par l'équipe "Veauche mérite mieux".
+                </p>
+              </form>
+            </CardContent>
+          </Card>
         </div>
       </section>
 

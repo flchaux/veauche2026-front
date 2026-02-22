@@ -340,3 +340,9 @@
 - [x] Statistiques de votes groupés par IP
 - [x] Tester la page d'administration
 - [ ] Commit et push
+
+## Ajout du formulaire "Donnez votre avis" en fin de page /mesures
+- [x] Récupérer le formulaire existant de Home.tsx
+- [x] Ajouter le formulaire à la fin de Mesures.tsx (titre "Vous avez une question ?")
+- [x] Tester le formulaire (affichage OK, envoi vers Strapi email-contacts)
+- [ ] Commit et push
