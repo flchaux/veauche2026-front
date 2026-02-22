@@ -11,6 +11,7 @@ import { hasVotedForMesure } from "@/lib/voteCookie";
 import { toast } from "sonner";
 import { getStrapiImageUrl } from "@/lib/strapi";
 import MobileMenu from "@/components/MobileMenu";
+import { Header } from "@/components/Header";
 
 interface VoteState {
   voted: boolean;
@@ -228,25 +229,7 @@ export default function Mesures() {
   return (
     <div className="min-h-screen flex flex-col">
       <MobileMenu currentPage="/mesures" />
-      {/* Header Navigation */}
-      <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-3">
-            <img src="/icon.png" alt="Veauche mérite mieux" className="h-10 w-10" />
-            <span className="text-lg font-bold text-foreground hidden sm:inline">
-              Veauche mérite mieux
-            </span>
-          </div>
-          <nav className="hidden md:flex items-center gap-6">
-            <a
-              href="/"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Accueil
-            </a>
-          </nav>
-        </div>
-      </header>
+      <Header currentPage="/mesures" />
 
       {/* Hero Section */}
       <section className="py-20 bg-secondary/30">

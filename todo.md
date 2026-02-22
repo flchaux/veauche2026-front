@@ -378,3 +378,10 @@
 - [x] Modifier le lien pour pointer vers /mesures
 - [x] Tester sur mobile
 - [ ] Créer checkpoint
+
+## Uniformisation du menu de navigation
+- [x] Analyser les différences de menu entre Home.tsx, Equipe.tsx et Mesures.tsx
+- [x] Créer un composant Header réutilisable avec le menu complet
+- [x] Intégrer le composant Header dans toutes les pages
+- [x] Tester la navigation sur toutes les pages
+- [ ] Créer checkpoint

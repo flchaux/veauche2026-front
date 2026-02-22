@@ -4,6 +4,7 @@ import { Quote } from "lucide-react";
 import { APP_LOGO } from "@/const";
 import { getMembresEquipe, getStrapiImageUrl } from "@/lib/strapi";
 import MobileMenu from "@/components/MobileMenu";
+import { Header } from "@/components/Header";
 import type { MembreEquipe } from "../../../shared/strapiTypes";
 
 export default function Equipe() {
@@ -35,26 +36,7 @@ export default function Equipe() {
   return (
     <div className="min-h-screen flex flex-col">
       <MobileMenu currentPage="/equipe" />
-      {/* Header avec navigation */}
-      <header className="sticky top-0 z-50 bg-background border-b">
-        <div className="container flex h-16 items-center justify-between">
-          <a href="/" className="flex items-center gap-3">
-            <img src={APP_LOGO} alt="Logo" className="h-10 w-auto" />
-            <span className="font-bold text-xl text-foreground">Veauche Mérite Mieux</span>
-          </a>
-          <nav className="flex gap-6">
-            <a href="/#priorites" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
-              Priorités
-            </a>
-            <a href="/mesures" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
-              Notre programme
-            </a>
-            <a href="/#equipe" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
-              Équipe
-            </a>
-          </nav>
-        </div>
-      </header>
+      <Header currentPage="/equipe" />
 
       <main className="flex-1">
         {/* Hero Section */}
