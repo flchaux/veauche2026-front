@@ -44,6 +44,9 @@ export default function Equipe() {
             <a href="/#priorites" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
               Priorités
             </a>
+            <a href="/mesures" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+              Notre programme
+            </a>
             <a href="/#equipe" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
               Équipe
             </a>

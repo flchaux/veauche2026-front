@@ -320,3 +320,9 @@
 - [x] Styliser l'intro avec couleurs de la charte (blanc sur bleu avec bordure jaune)
 - [x] Tester le rendu visuel
 - [ ] Commit et push
+
+## Ajout du lien "Notre programme" dans le menu principal
+- [x] Modifier le menu dans Home.tsx
+- [x] Modifier le menu dans Equipe.tsx
+- [x] Tester la navigation
+- [ ] Commit et push
