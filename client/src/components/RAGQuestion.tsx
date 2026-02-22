@@ -165,9 +165,10 @@ export default function RAGQuestion() {
 
                 <div className="p-6 bg-muted/50 rounded-lg border border-border">
                   <h4 className="font-semibold text-foreground mb-3">Réponse :</h4>
-                  <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
-                    {response.answer}
-                  </p>
+                  <div 
+                    className="text-muted-foreground leading-relaxed prose prose-sm max-w-none"
+                    dangerouslySetInnerHTML={{ __html: response.answer }}
+                  />
                 </div>
 
                 {response.sources && response.sources.length > 0 && (

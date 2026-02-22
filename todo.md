@@ -352,3 +352,10 @@
 - [x] Ajouter scroll-mt-24 pour compenser le header fixe
 - [ ] Modifier le backend Strapi RAG pour générer des liens (fait par l'utilisateur)
 - [ ] Commit et push
+
+### Affichage HTML formaté des réponses RAG
+- [x] Modifier le composant RAG pour afficher la réponse comme HTML
+- [x] Utiliser dangerouslySetInnerHTML pour le rendu
+- [x] Ajouter les classes prose pour le formatage
+- [x] Tester l'affichage avec des liens (fonctionne, liens cliquables)
+- [ ] Commit et push
