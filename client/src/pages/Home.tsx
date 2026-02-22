@@ -192,7 +192,10 @@ export default function Home() {
               L'équipe
             </a>
           </nav>
-          <Button asChild className="bg-primary hover:bg-primary/90">
+          <Button asChild className="bg-primary hover:bg-primary/90 md:hidden">
+            <a href="/mesures">Programme</a>
+          </Button>
+          <Button asChild className="bg-primary hover:bg-primary/90 hidden md:inline-flex">
             <a href="#vos-questions">Posez une question</a>
           </Button>
         </div>

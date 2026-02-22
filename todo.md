@@ -372,3 +372,9 @@
 - [x] Visible uniquement sur mobile (md:hidden)
 - [x] Tester sur mobile
 - [x] Commit et push
+
+## Modification bouton menu mobile
+- [x] Remplacer "Posez une question" par "Programme" dans le menu mobile
+- [x] Modifier le lien pour pointer vers /mesures
+- [x] Tester sur mobile
+- [ ] Créer checkpoint
