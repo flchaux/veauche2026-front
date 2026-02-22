@@ -332,3 +332,11 @@
 - [x] Ajouter le bouton sous la liste des priorités
 - [x] Tester le bouton
 - [ ] Commit et push
+
+## Page d'administration des votes
+- [x] Créer la page VotesAdmin.tsx
+- [x] Ajouter la route dans App.tsx (accessible uniquement par URL)
+- [x] Statistiques de votes par mesure (likes, dislikes, % positif)
+- [x] Statistiques de votes groupés par IP
+- [x] Tester la page d'administration
+- [ ] Commit et push
