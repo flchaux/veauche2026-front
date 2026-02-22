@@ -326,3 +326,9 @@
 - [x] Modifier le menu dans Equipe.tsx
 - [x] Tester la navigation
 - [ ] Commit et push
+
+## Ajout du bouton "Voir le programme complet" sous les priorités
+- [x] Localiser la section des priorités dans Home.tsx
+- [x] Ajouter le bouton sous la liste des priorités
+- [x] Tester le bouton
+- [ ] Commit et push

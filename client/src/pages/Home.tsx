@@ -328,6 +328,16 @@ export default function Home() {
               })}
             </div>
 
+            {/* Bouton Voir le programme complet */}
+            <div className="flex justify-center mt-12">
+              <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-lg px-8 py-6">
+                <a href="/mesures">
+                  Voir le programme complet
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </a>
+              </Button>
+            </div>
+
             {/* Photos de Veauche */}
             <div className="grid md:grid-cols-2 gap-6 mt-12">
               {photosData.slice(0, 2).map((photo) => (
