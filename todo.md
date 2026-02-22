@@ -346,3 +346,9 @@
 - [x] Ajouter le formulaire à la fin de Mesures.tsx (titre "Vous avez une question ?")
 - [x] Tester le formulaire (affichage OK, envoi vers Strapi email-contacts)
 - [ ] Commit et push
+
+## Ancres sur les mesures et liens RAG
+- [x] Ajouter des ancres HTML (id) sur chaque mesure dans Mesures.tsx (format: mesure-{id})
+- [x] Ajouter scroll-mt-24 pour compenser le header fixe
+- [ ] Modifier le backend Strapi RAG pour générer des liens (fait par l'utilisateur)
+- [ ] Commit et push

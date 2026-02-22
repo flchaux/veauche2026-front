@@ -310,7 +310,8 @@ export default function Mesures() {
                       return (
                         <Card
                           key={mesure.id}
-                          className="border-2 hover:border-primary/30 transition-all duration-300"
+                          id={`mesure-${mesure.id}`}
+                          className="border-2 hover:border-primary/30 transition-all duration-300 scroll-mt-24"
                         >
                           <CardContent className="p-6">
                             <div className="flex gap-6 items-start">
