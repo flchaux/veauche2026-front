@@ -371,4 +371,4 @@
 - [x] Ajouter un bouton "Voir le programme complet" sous le bloc RAG
 - [x] Visible uniquement sur mobile (md:hidden)
 - [x] Tester sur mobile
-- [ ] Commit et push
+- [x] Commit et push
