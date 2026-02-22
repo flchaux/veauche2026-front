@@ -10,6 +10,7 @@ import { submitVote, addCommentToVote, type VoteType } from "@/lib/voteApi";
 import { hasVotedForMesure } from "@/lib/voteCookie";
 import { toast } from "sonner";
 import { getStrapiImageUrl } from "@/lib/strapi";
+import MobileMenu from "@/components/MobileMenu";
 
 interface VoteState {
   voted: boolean;
@@ -224,9 +225,9 @@ export default function Mesures() {
       </div>
     );
   }
-
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col">
+      <MobileMenu currentPage="/mesures" />
       {/* Header Navigation */}
       <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
         <div className="container flex h-16 items-center justify-between">

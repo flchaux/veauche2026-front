@@ -359,3 +359,16 @@
 - [x] Ajouter les classes prose pour le formatage
 - [x] Tester l'affichage avec des liens (fonctionne, liens cliquables)
 - [ ] Commit et push
+
+## Menu hamburger mobile depuis la droite
+- [ ] Créer le composant MobileMenu avec animation slide-in
+- [ ] Ajouter l'overlay semi-transparent
+- [ ] Intégrer dans toutes les pages (Home, Equipe, Mesures)
+- [ ] Tester sur mobile (ouverture, fermeture, navigation)
+- [ ] Commit et push
+
+## Bouton programme sous RAG (mobile uniquement)
+- [x] Ajouter un bouton "Voir le programme complet" sous le bloc RAG
+- [x] Visible uniquement sur mobile (md:hidden)
+- [x] Tester sur mobile
+- [ ] Commit et push

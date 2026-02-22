@@ -33,6 +33,7 @@ import * as LucideIcons from "lucide-react";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import RAGQuestion from "@/components/RAGQuestion";
+import MobileMenu from "@/components/MobileMenu";
 
 // Fonction pour obtenir dynamiquement une icône Lucide par son nom
 const getDynamicIcon = (iconName: string) => {
@@ -169,6 +170,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <MobileMenu currentPage="/" />
       {/* Header Navigation */}
       <header className="border-b bg-background sticky top-0 z-50">
         <div className="container flex h-16 items-center justify-between">
@@ -240,6 +242,18 @@ export default function Home() {
               {parametresSite?.afficher_bloc_rag && (
                 <div className="lg:sticky lg:top-20">
                   <RAGQuestion />
+                  {/* Bouton programme - visible uniquement sur mobile */}
+                  <div className="mt-6 md:hidden">
+                    <Button
+                      className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-6 text-base"
+                      asChild
+                    >
+                      <a href="/mesures">
+                        Voir le programme complet
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                      </a>
+                    </Button>
+                  </div>
                 </div>
               )}
             </div>

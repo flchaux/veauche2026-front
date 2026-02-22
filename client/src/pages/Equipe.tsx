@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Quote } from "lucide-react";
 import { APP_LOGO } from "@/const";
 import { getMembresEquipe, getStrapiImageUrl } from "@/lib/strapi";
+import MobileMenu from "@/components/MobileMenu";
 import type { MembreEquipe } from "../../../shared/strapiTypes";
 
 export default function Equipe() {
@@ -33,6 +34,7 @@ export default function Equipe() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <MobileMenu currentPage="/equipe" />
       {/* Header avec navigation */}
       <header className="sticky top-0 z-50 bg-background border-b">
         <div className="container flex h-16 items-center justify-between">
