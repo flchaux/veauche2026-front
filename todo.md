@@ -385,3 +385,8 @@
 - [x] Intégrer le composant Header dans toutes les pages
 - [x] Tester la navigation sur toutes les pages
 - [ ] Créer checkpoint
+
+## Réduction taille police des mesures
+- [x] Réduire la taille de police des titres de mesures
+- [ ] Tester l'affichage sur desktop et mobile
+- [ ] Push sur GitHub

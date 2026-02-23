@@ -310,7 +310,7 @@ export default function Mesures() {
                               <div className="flex-1 space-y-4">
                                 {/* Titre et image sur la même ligne */}
                                 <div className="flex gap-4 items-center">
-                                  <h3 className="text-xl font-semibold text-foreground flex-1">
+                                  <h3 className="text-lg font-semibold text-foreground flex-1">
                                     {mesure.titre}
                                   </h3>
                                   {imageUrl && (
