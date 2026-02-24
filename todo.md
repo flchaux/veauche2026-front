@@ -394,3 +394,7 @@
 ## Réduction padding interne cards mesures
 - [x] Réduire padding CardContent (p-4 → p-3)
 - [ ] Push sur GitHub
+
+## Réduction padding vertical cards mesures
+- [x] Changer p-3 en px-3 py-2
+- [ ] Push sur GitHub
