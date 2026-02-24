@@ -232,10 +232,10 @@ export default function Mesures() {
       <Header currentPage="/mesures" />
 
       {/* Hero Section */}
-      <section className="py-20 bg-secondary/30">
+      <section className="py-12 bg-secondary/30">
         <div className="container">
           <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
+            <h1 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
               Nos Mesures pour Veauche
             </h1>
             <p className="text-lg text-muted-foreground">
@@ -247,25 +247,25 @@ export default function Mesures() {
       </section>
 
       {/* Mesures par Priorité */}
-      <section className="py-16 bg-background">
+      <section className="py-8 bg-background">
         <div className="container">
-          <div className="space-y-20">
+          <div className="space-y-12">
             {mesuresParPriorite.map((item, index) => {
               const { priorite, mesures: mesuresDeLaPriorite } = item;
               
               return (
-                <div key={priorite.id} className="space-y-8">
-                  {/* En-tête de la priorité */}
-                  <div className="space-y-6">
+                <div key={priorite.id} className="space-y-6">
+                    {/* En-tête de la priorité */}
+                    <div className="space-y-4">
                     {/* Titre */}
-                    <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center capitalize">
+                    <h2 className="text-2xl md:text-3xl font-bold text-foreground text-center capitalize">
                       {priorite.titre}
                     </h2>
 
                     {/* Intro dans un bloc coloré */}
                     {priorite.intro && (
                       <div className="max-w-3xl mx-auto">
-                        <div className="bg-[#0D6EB2] border-2 border-[#DF9F14] rounded-lg p-8 shadow-lg">
+                        <div className="bg-[#0D6EB2] border-2 border-[#DF9F14] rounded-lg p-6 shadow-lg">
                           <p className="text-lg text-white leading-relaxed text-center">
                             {priorite.intro}
                           </p>
@@ -278,7 +278,7 @@ export default function Mesures() {
                   </div>
 
                   {/* Liste des mesures */}
-                  <div className="max-w-5xl mx-auto space-y-6">
+                  <div className="max-w-5xl mx-auto space-y-4">
                     {mesuresDeLaPriorite.map((mesure) => {
                       const voteState = voteStates[mesure.id] || {
                         voted: false,
@@ -297,8 +297,8 @@ export default function Mesures() {
                           id={`mesure-${mesure.id}`}
                           className="border-2 hover:border-primary/30 transition-all duration-300 scroll-mt-24"
                         >
-                          <CardContent className="p-6">
-                            <div className="flex gap-6 items-start">
+                          <CardContent className="p-4">
+                            <div className="flex gap-4 items-start">
                               {/* Numéro de la mesure */}
                               <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                                 <span className="text-primary font-bold text-lg">
@@ -307,7 +307,7 @@ export default function Mesures() {
                               </div>
 
                               {/* Contenu de la mesure */}
-                              <div className="flex-1 space-y-4">
+                              <div className="flex-1 space-y-3">
                                 {/* Titre et image sur la même ligne */}
                                 <div className="flex gap-4 items-center">
                                   <h3 className="text-lg font-semibold text-foreground flex-1">
