@@ -390,3 +390,7 @@
 - [x] Réduire la taille de police des titres de mesures
 - [ ] Tester l'affichage sur desktop et mobile
 - [ ] Push sur GitHub
+
+## Réduction padding interne cards mesures
+- [x] Réduire padding CardContent (p-4 → p-3)
+- [ ] Push sur GitHub

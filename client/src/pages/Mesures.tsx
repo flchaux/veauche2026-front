@@ -297,7 +297,7 @@ export default function Mesures() {
                           id={`mesure-${mesure.id}`}
                           className="border-2 hover:border-primary/30 transition-all duration-300 scroll-mt-24"
                         >
-                          <CardContent className="p-4">
+                          <CardContent className="p-3">
                             <div className="flex gap-4 items-start">
                               {/* Numéro de la mesure */}
                               <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
