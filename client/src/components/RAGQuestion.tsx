@@ -169,6 +169,9 @@ export default function RAGQuestion() {
                     className="text-muted-foreground leading-relaxed prose prose-sm max-w-none"
                     dangerouslySetInnerHTML={{ __html: response.answer }}
                   />
+                  <p className="text-xs text-muted-foreground/70 mt-4 italic">
+                    Cette réponse a été générée par IA et peut donc contenir des erreurs.
+                  </p>
                 </div>
 
                 {response.sources && response.sources.length > 0 && (

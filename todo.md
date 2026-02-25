@@ -398,3 +398,7 @@
 ## Réduction padding vertical cards mesures
 - [x] Changer p-3 en px-3 py-2
 - [ ] Push sur GitHub
+
+## Ajout disclaimer IA dans bloc RAG
+- [x] Ajouter un disclaimer discret après la réponse
+- [ ] Push sur GitHub
