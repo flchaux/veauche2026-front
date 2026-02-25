@@ -107,8 +107,8 @@ export default function RAGQuestion() {
                     <Sparkles className="h-6 w-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-foreground">Une question sur notre programme ?</h3>
-                    <p className="text-sm text-muted-foreground">Posez votre question, notre assistant Veauchois vous répond</p>
+                    <h3 className="text-xl font-bold text-foreground">Interrogez notre assistant IA</h3>
+                    <p className="text-sm text-muted-foreground">Posez toutes vos questions sur notre programme, l'IA vous répond immédiatement</p>
                   </div>
                 </div>
 
