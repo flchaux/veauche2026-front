@@ -402,3 +402,9 @@
 ## Ajout disclaimer IA dans bloc RAG
 - [x] Ajouter un disclaimer discret après la réponse
 - [ ] Push sur GitHub
+
+## Popup annonce réunion publique 10 mars
+- [x] Créer composant AnnouncementPopup
+- [x] Affichage une seule fois par visite (sessionStorage)
+- [x] Intégrer dans App.tsx
+- [ ] Push sur GitHub
