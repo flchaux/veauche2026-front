@@ -64,14 +64,14 @@ export default function AnnouncementPopup() {
               <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
                 <Calendar className="h-4 w-4 text-primary" />
               </div>
-              <span className="font-medium">Lundi 10 mars 2026 à 19h30</span>
+              <span className="font-medium">Mardi 10 mars 2026 à 19h30</span>
             </div>
 
             <div className="flex items-center gap-3 text-foreground">
               <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
                 <MapPin className="h-4 w-4 text-primary" />
               </div>
-              <span className="font-medium">L'Escale, Veauche</span>
+              <span className="font-medium">l'escale, Veauche</span>
             </div>
 
             <div className="flex items-start gap-3 text-foreground">
