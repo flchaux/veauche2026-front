@@ -39,6 +39,12 @@ export function Header({ currentPage = "/" }: HeaderProps) {
           >
             L'équipe
           </a>
+          <a
+            href="/tracts"
+            className="text-sm font-medium text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-105 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
+          >
+            Dépliants
+          </a>
         </nav>
         <Button asChild className="bg-primary hover:bg-primary/90 md:hidden">
           <a href="/mesures">Programme</a>

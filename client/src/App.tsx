@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import Equipe from "./pages/Equipe";
 import Mesures from "./pages/Mesures";
 import VotesAdmin from "./pages/VotesAdmin";
+import Tracts from "./pages/Tracts";
 import AnnouncementPopup from "./components/AnnouncementPopup";
 
 function Router() {
@@ -18,6 +19,7 @@ function Router() {
       <Route path={"/equipe"} component={Equipe} />
       <Route path={"/mesures"} component={Mesures} />
       <Route path={"/votes-admin"} component={VotesAdmin} />
+      <Route path={"/tracts"} component={Tracts} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

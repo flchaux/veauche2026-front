@@ -408,3 +408,10 @@
 - [x] Affichage une seule fois par visite (sessionStorage)
 - [x] Intégrer dans App.tsx
 - [ ] Push sur GitHub
+
+## Page dépliants /tracts avec previewer PDF
+- [x] Uploader les 3 PDF en CDN
+- [x] Créer la page Tracts.tsx avec previewer PDF
+- [x] Ajouter la route dans App.tsx
+- [x] Ajouter le lien dans le menu Header
+- [ ] Push sur GitHub
