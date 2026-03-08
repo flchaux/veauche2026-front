@@ -489,6 +489,26 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Section Dépliants */}
+        <section className="py-12 border-t">
+          <div className="container">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-6 max-w-3xl mx-auto">
+              <div>
+                <h3 className="text-xl font-bold text-foreground mb-1">Nos dépliants distribués</h3>
+                <p className="text-muted-foreground">
+                  Notre équipe est sur le terrain. Retrouvez tous les documents que nous avons distribués dans les boîtes aux lettres de Veauche.
+                </p>
+              </div>
+              <Button asChild variant="outline" className="shrink-0 border-2 border-primary text-primary hover:bg-primary hover:text-white">
+                <a href="/tracts">
+                  Voir les dépliants
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </a>
+              </Button>
+            </div>
+          </div>
+        </section>
+
         {/* Section Formulaire */}
         <section id="vos-questions" className="py-20 bg-primary text-primary-foreground">
           <div className="container max-w-2xl">
