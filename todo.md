@@ -415,3 +415,8 @@
 - [x] Ajouter la route dans App.tsx
 - [x] Ajouter le lien dans le menu Header
 - [ ] Push sur GitHub
+
+## Fix viewer PDF (remplacement iframe par react-pdf)
+- [x] Installer react-pdf
+- [x] Réécrire Tracts.tsx avec react-pdf
+- [ ] Push sur GitHub
