@@ -24,7 +24,7 @@ export async function getPrioritesProgramme(): Promise<PrioriteProgramme[]> {
 
 // Variables d'environnement Vite (côté client)
 const STRAPI_URL = import.meta.env.VITE_STRAPI_URL || 'https://veauche2026-strapi.onrender.com';
-const STRAPI_TOKEN = import.meta.env.VITE_STRAPI_TOKEN || 'b898956bd2e7bd8cfe2daa8b046188ef59bbdeca3d2e45ddef74de8dd9dde3c733946210951f48d606cdc5cc0a1cfc7cb86d86efce5dca679601c9a9de7c200521b0dff5644cdd6638f745cd91a4014f8e51c8d92ed515fa202b32ad7c9b2dd5b520d0e4c868ae77020c6163bfff7ce140adfb44a737065a00f1769bc142fcad';
+const STRAPI_TOKEN = import.meta.env.VITE_STRAPI_TOKEN;
 
 async function fetchStrapi<T>(endpoint: string): Promise<T | null> {
   const url = `${STRAPI_URL}/api/${endpoint}`;

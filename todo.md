@@ -430,3 +430,8 @@
 - [ ] Analyser la logique de mise à jour des compteurs dans Mesures.tsx
 - [ ] Corriger la mise à jour optimiste ou le rechargement des données
 - [ ] Push sur GitHub
+
+## Bug vote non enregistré dans Strapi
+- [ ] Analyser submitVote et la requête POST
+- [ ] Corriger le bug
+- [ ] Push sur GitHub

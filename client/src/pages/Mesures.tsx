@@ -70,7 +70,7 @@ export default function Mesures() {
     loadMesures();
   }, []);
 
-  const handleVote = async (mesureId: number, voteType: VoteType) => {
+  const handleVote = async (mesureId: number, voteType: VoteType, mesureDocumentId?: string) => {
     const currentState = voteStates[mesureId];
     
     if (currentState?.voted) {
@@ -87,7 +87,7 @@ export default function Mesures() {
     // Attendre un peu pour l'animation
     await new Promise(resolve => setTimeout(resolve, 300));
 
-    const result = await submitVote(mesureId, voteType);
+    const result = await submitVote(mesureId, voteType, mesureDocumentId);
 
     if (result.success) {
       setVoteStates(prev => ({
@@ -339,7 +339,7 @@ export default function Mesures() {
                                       <Button
                                         variant="outline"
                                         size="sm"
-                                        onClick={() => handleVote(mesure.id, 'like')}
+                                        onClick={() => handleVote(mesure.id, 'like', mesure.documentId)}
                                         disabled={voteState.animating}
                                         className={`transition-all duration-300 hover:bg-green-50 hover:border-green-500 hover:text-green-600 ${
                                           voteState.animating && voteState.voteType === 'like'
@@ -352,7 +352,7 @@ export default function Mesures() {
                                       <Button
                                         variant="outline"
                                         size="sm"
-                                        onClick={() => handleVote(mesure.id, 'dislike')}
+                                        onClick={() => handleVote(mesure.id, 'dislike', mesure.documentId)}
                                         disabled={voteState.animating}
                                         className={`transition-all duration-300 hover:bg-red-50 hover:border-red-500 hover:text-red-600 ${
                                           voteState.animating && voteState.voteType === 'dislike'

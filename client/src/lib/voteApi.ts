@@ -37,7 +37,8 @@ async function getVisitorIP(): Promise<string> {
  */
 export async function submitVote(
   mesureId: number,
-  voteType: VoteType
+  voteType: VoteType,
+  mesureDocumentId?: string
 ): Promise<VoteResponse> {
   // Vérification côté client
   if (hasVotedForMesure(mesureId)) {
@@ -52,6 +53,11 @@ export async function submitVote(
     const cookieId = getVoterCookieId();
     const ipAddress = await getVisitorIP();
 
+    // Strapi v5 utilise documentId pour les relations
+    const mesureConnect = mesureDocumentId
+      ? { connect: [{ documentId: mesureDocumentId }] }
+      : { connect: [{ id: mesureId }] };
+
     const response = await fetch(`${STRAPI_URL}/api/votes-mesures`, {
       method: 'POST',
       headers: {
@@ -60,7 +66,7 @@ export async function submitVote(
       },
       body: JSON.stringify({
         data: {
-          mesure: { connect: [{ id: mesureId }] },
+          mesure: mesureConnect,
           vote_ype: voteType,
           ip_address: ipAddress,
           cookie_id: cookieId

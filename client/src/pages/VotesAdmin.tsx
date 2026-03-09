@@ -41,10 +41,10 @@ export default function VotesAdmin() {
     try {
       // Récupérer toutes les mesures
       const mesuresResponse = await fetch(
-        `${import.meta.env.VITE_STRAPI_URL}/api/mesures?populate=*&pagination[limit]=1000`,
-        {
-          headers: {
-            Authorization: `Bearer ${import.meta.env.VITE_STRAPI_TOKEN}`,
+          `${import.meta.env.VITE_STRAPI_URL}/api/mesures?populate=*&pagination[limit]=1000`,
+          {
+            headers: {
+              Authorization: `Bearer ${import.meta.env.VITE_STRAPI_TOKEN}`,
           },
         }
       );
@@ -53,10 +53,10 @@ export default function VotesAdmin() {
 
       // Récupérer tous les votes
       const votesResponse = await fetch(
-        `${import.meta.env.VITE_STRAPI_URL}/api/votes-mesures?populate=*&pagination[limit]=10000`,
-        {
-          headers: {
-            Authorization: `Bearer ${import.meta.env.VITE_STRAPI_TOKEN}`,
+          `${import.meta.env.VITE_STRAPI_URL}/api/votes-mesures?populate=*&pagination[limit]=10000`,
+          {
+            headers: {
+              Authorization: `Bearer ${import.meta.env.VITE_STRAPI_TOKEN}`,
           },
         }
       );
