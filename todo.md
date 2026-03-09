@@ -425,3 +425,8 @@
 - [ ] Analyser la requête de comptage dans le router
 - [ ] Corriger le bug (ne prend que la première version du document)
 - [ ] Push sur GitHub
+
+## Bug compteurs votes non mis à jour après vote
+- [ ] Analyser la logique de mise à jour des compteurs dans Mesures.tsx
+- [ ] Corriger la mise à jour optimiste ou le rechargement des données
+- [ ] Push sur GitHub

@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -8,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ThumbsUp, ThumbsDown, Users, BarChart3 } from "lucide-react";
+import { ThumbsUp, ThumbsDown, Users, BarChart3, RefreshCw } from "lucide-react";
 
 interface MesureVoteStats {
   mesure_id: number;
@@ -29,104 +30,112 @@ export default function VotesAdmin() {
   const [mesureStats, setMesureStats] = useState<MesureVoteStats[]>([]);
   const [voterStats, setVoterStats] = useState<VoterStats[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    async function loadStats() {
-      try {
-        setIsLoading(true);
-        
-        // Récupérer toutes les mesures
-        const mesuresResponse = await fetch(
-          `${import.meta.env.VITE_STRAPI_URL}/api/mesures?populate=*&pagination[limit]=1000`,
-          {
-            headers: {
-              Authorization: `Bearer ${import.meta.env.VITE_STRAPI_TOKEN}`,
-            },
-          }
-        );
-        const mesuresData = await mesuresResponse.json();
-        const mesures = mesuresData.data || [];
+  const loadStats = useCallback(async (silent = false) => {
+    if (!silent) setIsLoading(true);
+    else setIsRefreshing(true);
 
-        // Récupérer tous les votes
-        const votesResponse = await fetch(
-          `${import.meta.env.VITE_STRAPI_URL}/api/votes-mesures?populate=*&pagination[limit]=10000`,
-          {
-            headers: {
-              Authorization: `Bearer ${import.meta.env.VITE_STRAPI_TOKEN}`,
-            },
-          }
-        );
-        const votesData = await votesResponse.json();
-        const votes = votesData.data || [];
+    try {
+      // Récupérer toutes les mesures
+      const mesuresResponse = await fetch(
+        `${import.meta.env.VITE_STRAPI_URL}/api/mesures?populate=*&pagination[limit]=1000`,
+        {
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_STRAPI_TOKEN}`,
+          },
+        }
+      );
+      const mesuresData = await mesuresResponse.json();
+      const mesures = mesuresData.data || [];
 
-        // Calculer les statistiques par mesure
-        const mesureStatsMap = new Map<number, MesureVoteStats>();
-        
-        mesures.forEach((mesure: any) => {
-          mesureStatsMap.set(mesure.id, {
-            mesure_id: mesure.id,
-            mesure_titre: mesure.titre || `Mesure ${mesure.id}`,
-            likes: 0,
-            dislikes: 0,
-            total: 0,
-          });
+      // Récupérer tous les votes
+      const votesResponse = await fetch(
+        `${import.meta.env.VITE_STRAPI_URL}/api/votes-mesures?populate=*&pagination[limit]=10000`,
+        {
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_STRAPI_TOKEN}`,
+          },
+        }
+      );
+      const votesData = await votesResponse.json();
+      const votes = votesData.data || [];
+
+      // Calculer les statistiques par mesure
+      const mesureStatsMap = new Map<number, MesureVoteStats>();
+
+      mesures.forEach((mesure: any) => {
+        mesureStatsMap.set(mesure.id, {
+          mesure_id: mesure.id,
+          mesure_titre: mesure.titre || `Mesure ${mesure.id}`,
+          likes: 0,
+          dislikes: 0,
+          total: 0,
         });
+      });
 
-        votes.forEach((vote: any) => {
-          const mesureId = vote.mesure?.id;
-          if (mesureId && mesureStatsMap.has(mesureId)) {
-            const stats = mesureStatsMap.get(mesureId)!;
-            if (vote.vote_ype === "like") {
-              stats.likes++;
-            } else if (vote.vote_ype === "dislike") {
-              stats.dislikes++;
-            }
-            stats.total++;
-          }
-        });
-
-        const mesureStatsArray = Array.from(mesureStatsMap.values())
-          .sort((a, b) => b.total - a.total);
-
-        // Calculer les statistiques par IP
-        const voterStatsMap = new Map<string, VoterStats>();
-        
-        votes.forEach((vote: any) => {
-          const ip = vote.ip_address || "Unknown";
-          if (!voterStatsMap.has(ip)) {
-            voterStatsMap.set(ip, {
-              ip_address: ip,
-              likes: 0,
-              dislikes: 0,
-              total: 0,
-            });
-          }
-          
-          const stats = voterStatsMap.get(ip)!;
+      votes.forEach((vote: any) => {
+        const mesureId = vote.mesure?.id;
+        if (mesureId && mesureStatsMap.has(mesureId)) {
+          const stats = mesureStatsMap.get(mesureId)!;
           if (vote.vote_ype === "like") {
             stats.likes++;
           } else if (vote.vote_ype === "dislike") {
             stats.dislikes++;
           }
           stats.total++;
-        });
+        }
+      });
 
-        const voterStatsArray = Array.from(voterStatsMap.values())
-          .sort((a, b) => b.total - a.total);
+      const mesureStatsArray = Array.from(mesureStatsMap.values())
+        .sort((a, b) => b.total - a.total);
 
-        setMesureStats(mesureStatsArray);
-        setVoterStats(voterStatsArray);
-      } catch (err) {
-        console.error("Erreur lors du chargement des statistiques:", err);
-        setError("Erreur lors du chargement des statistiques");
-      } finally {
-        setIsLoading(false);
-      }
+      // Calculer les statistiques par IP
+      const voterStatsMap = new Map<string, VoterStats>();
+
+      votes.forEach((vote: any) => {
+        const ip = vote.ip_address || "Unknown";
+        if (!voterStatsMap.has(ip)) {
+          voterStatsMap.set(ip, {
+            ip_address: ip,
+            likes: 0,
+            dislikes: 0,
+            total: 0,
+          });
+        }
+
+        const stats = voterStatsMap.get(ip)!;
+        if (vote.vote_ype === "like") {
+          stats.likes++;
+        } else if (vote.vote_ype === "dislike") {
+          stats.dislikes++;
+        }
+        stats.total++;
+      });
+
+      const voterStatsArray = Array.from(voterStatsMap.values())
+        .sort((a, b) => b.total - a.total);
+
+      setMesureStats(mesureStatsArray);
+      setVoterStats(voterStatsArray);
+      setLastUpdated(new Date());
+    } catch (err) {
+      console.error("Erreur lors du chargement des statistiques:", err);
+      setError("Erreur lors du chargement des statistiques");
+    } finally {
+      setIsLoading(false);
+      setIsRefreshing(false);
     }
-
-    loadStats();
   }, []);
+
+  useEffect(() => {
+    loadStats(false);
+    // Rechargement automatique toutes les 30 secondes
+    const interval = setInterval(() => loadStats(true), 30000);
+    return () => clearInterval(interval);
+  }, [loadStats]);
 
   if (isLoading) {
     return (
@@ -156,11 +165,29 @@ export default function VotesAdmin() {
   return (
     <div className="min-h-screen bg-background py-12">
       <div className="container max-w-7xl">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Administration des Votes</h1>
-          <p className="text-muted-foreground">
-            Statistiques détaillées des votes sur les mesures du programme
-          </p>
+        <div className="mb-8 flex items-start justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">Administration des Votes</h1>
+            <p className="text-muted-foreground">
+              Statistiques détaillées des votes sur les mesures du programme
+            </p>
+            {lastUpdated && (
+              <p className="text-xs text-muted-foreground mt-1">
+                Dernière mise à jour : {lastUpdated.toLocaleTimeString("fr-FR")}
+                {" · "}Actualisation automatique toutes les 30s
+              </p>
+            )}
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => loadStats(true)}
+            disabled={isRefreshing}
+            className="shrink-0"
+          >
+            <RefreshCw className={`h-4 w-4 mr-2 ${isRefreshing ? "animate-spin" : ""}`} />
+            Actualiser
+          </Button>
         </div>
 
         {/* Statistiques globales */}
@@ -251,10 +278,10 @@ export default function VotesAdmin() {
               </TableHeader>
               <TableBody>
                 {mesureStats.map((stat) => {
-                  const positivePercent = stat.total > 0 
-                    ? Math.round((stat.likes / stat.total) * 100) 
+                  const positivePercent = stat.total > 0
+                    ? Math.round((stat.likes / stat.total) * 100)
                     : 0;
-                  
+
                   return (
                     <TableRow key={stat.mesure_id}>
                       <TableCell className="font-medium">{stat.mesure_id}</TableCell>
