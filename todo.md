@@ -420,3 +420,8 @@
 - [x] Installer react-pdf
 - [x] Réécrire Tracts.tsx avec react-pdf
 - [ ] Push sur GitHub
+
+## Bug comptage votes /votes-admin
+- [ ] Analyser la requête de comptage dans le router
+- [ ] Corriger le bug (ne prend que la première version du document)
+- [ ] Push sur GitHub
