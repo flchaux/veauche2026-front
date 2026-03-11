@@ -439,3 +439,7 @@
 ## Ajout bulletin de vote dans /tracts
 - [x] Ajouter le bulletin de vote dans Tracts.tsx
 - [x] Push sur GitHub
+
+## Intégration player Dailymotion
+- [ ] Ajouter le player Dailymotion (xa11msi) dans Home.tsx
+- [ ] Push sur GitHub
