@@ -1,20 +1,22 @@
 import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
-import { Download, FileText } from "lucide-react";
+import { Download, FileText, Video } from "lucide-react";
 
-interface Tract {
+interface Document {
   id: string;
   title: string;
   description: string;
+  type: "pdf" | "video";
   url: string;
-  filename: string;
+  filename?: string;
 }
 
-const TRACTS: Tract[] = [
+const DOCUMENTS: Document[] = [
   {
     id: "equipe",
     title: "Notre équipe",
     description: "Présentation des membres de la liste Veauche mérite mieux",
+    type: "pdf",
     url: "https://d2xsxph8kpxj0f.cloudfront.net/112885793/g6JrkeezNXgbHadPyGByc2/equipe_da673fcb.pdf",
     filename: "veauche-merite-mieux-equipe.pdf",
   },
@@ -22,6 +24,7 @@ const TRACTS: Tract[] = [
     id: "profession",
     title: "Profession de foi",
     description: "Notre engagement et nos valeurs pour Veauche",
+    type: "pdf",
     url: "https://d2xsxph8kpxj0f.cloudfront.net/112885793/g6JrkeezNXgbHadPyGByc2/profession_8514fc85.pdf",
     filename: "veauche-merite-mieux-profession-de-foi.pdf",
   },
@@ -29,6 +32,7 @@ const TRACTS: Tract[] = [
     id: "programme",
     title: "Programme complet",
     description: "L'ensemble de nos mesures et propositions pour Veauche",
+    type: "pdf",
     url: "https://d2xsxph8kpxj0f.cloudfront.net/112885793/g6JrkeezNXgbHadPyGByc2/programme_61830d78.pdf",
     filename: "veauche-merite-mieux-programme.pdf",
   },
@@ -36,8 +40,16 @@ const TRACTS: Tract[] = [
     id: "bulletin",
     title: "Bulletin de vote",
     description: "Le bulletin officiel de la liste Veauche mérite mieux",
+    type: "pdf",
     url: "https://d2xsxph8kpxj0f.cloudfront.net/112885793/g6JrkeezNXgbHadPyGByc2/Bulletin_aed27e86.pdf",
     filename: "veauche-merite-mieux-bulletin-de-vote.pdf",
+  },
+  {
+    id: "video-dailymotion",
+    title: "Notre passage dans les médias",
+    description: "Regardez notre interview diffusée sur Dailymotion",
+    type: "video",
+    url: "https://www.dailymotion.com/video/xa11msi",
   },
 ];
 
@@ -54,37 +66,50 @@ export default function Tracts() {
               Documents de campagne
             </span>
             <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
-              Nos dépliants
+              Nos documents
             </h1>
             <p className="text-muted-foreground text-lg">
-              Retrouvez ici tous les documents distribués par notre équipe sur le terrain.
+              Retrouvez ici tous les documents et médias produits par notre équipe.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Liste des tracts */}
+      {/* Liste des documents */}
       <section className="py-12 flex-1">
         <div className="container max-w-2xl">
           <div className="space-y-4">
-            {TRACTS.map((tract) => (
+            {DOCUMENTS.map((doc) => (
               <div
-                key={tract.id}
+                key={doc.id}
                 className="flex items-center gap-4 p-4 border-2 rounded-xl bg-card hover:border-primary/30 transition-colors"
               >
                 <div className="flex-shrink-0 w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <FileText className="h-5 w-5 text-primary" />
+                  {doc.type === "video" ? (
+                    <Video className="h-5 w-5 text-primary" />
+                  ) : (
+                    <FileText className="h-5 w-5 text-primary" />
+                  )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-card-foreground">{tract.title}</h3>
-                  <p className="text-sm text-muted-foreground mt-0.5 truncate">{tract.description}</p>
+                  <h3 className="font-semibold text-card-foreground">{doc.title}</h3>
+                  <p className="text-sm text-muted-foreground mt-0.5 truncate">{doc.description}</p>
                 </div>
-                <Button asChild size="sm" className="shrink-0">
-                  <a href={tract.url} download={tract.filename} target="_blank" rel="noreferrer">
-                    <Download className="h-4 w-4 mr-1.5" />
-                    Télécharger
-                  </a>
-                </Button>
+                {doc.type === "pdf" ? (
+                  <Button asChild size="sm" className="shrink-0">
+                    <a href={doc.url} download={doc.filename} target="_blank" rel="noreferrer">
+                      <Download className="h-4 w-4 mr-1.5" />
+                      Télécharger
+                    </a>
+                  </Button>
+                ) : (
+                  <Button asChild size="sm" variant="outline" className="shrink-0 border-primary text-primary hover:bg-primary hover:text-white">
+                    <a href={doc.url} target="_blank" rel="noreferrer">
+                      <Video className="h-4 w-4 mr-1.5" />
+                      Regarder
+                    </a>
+                  </Button>
+                )}
               </div>
             ))}
           </div>

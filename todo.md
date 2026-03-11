@@ -445,6 +445,13 @@
 - [x] Push sur GitHub
 
 ## Ajustements lecteur Dailymotion
-- [ ] Désactiver l'autoplay (autoplay=0)
-- [ ] Remonter le lecteur plus haut dans la page
+- [x] Désactiver l'autoplay (autoplay=0)
+- [x] Remonter le lecteur plus haut dans la page
+- [x] Push sur GitHub
+
+## Renommage Dépliants → Documents + ajout vidéo Dailymotion
+- [x] Renommer dans Tracts.tsx (titre, description)
+- [x] Renommer dans Header.tsx (lien menu)
+- [x] Renommer dans Home.tsx (section dépliants)
+- [x] Ajouter la vidéo Dailymotion dans Tracts.tsx
 - [ ] Push sur GitHub
