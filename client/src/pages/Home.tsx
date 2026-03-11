@@ -281,6 +281,28 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Section Vidéo Dailymotion */}
+        <section className="py-12 bg-muted/20 border-t">
+          <div className="container">
+            <div className="max-w-3xl mx-auto">
+              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2 text-center">
+                Nous en parlons
+              </h2>
+              <p className="text-muted-foreground text-center mb-8">
+                Regardez notre passage dans les médias
+              </p>
+              <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
+                <iframe
+                  src="https://www.dailymotion.com/embed/video/xa11msi?autoplay=0"
+                  className="absolute inset-0 w-full h-full rounded-xl shadow-lg"
+                  allowFullScreen
+                  title="Veauche mérite mieux - vidéo"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Section Priorités */}
         <section id="priorites" className="py-20">
           <div className="container">
@@ -505,29 +527,6 @@ export default function Home() {
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </a>
               </Button>
-            </div>
-          </div>
-        </section>
-
-        {/* Section Vidéo Dailymotion */}
-        <section className="py-12 bg-muted/20 border-t">
-          <div className="container">
-            <div className="max-w-3xl mx-auto">
-              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2 text-center">
-                Nous en parlons
-              </h2>
-              <p className="text-muted-foreground text-center mb-8">
-                Regardez notre passage dans les médias
-              </p>
-              <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
-                <iframe
-                  src="https://www.dailymotion.com/embed/video/xa11msi"
-                  className="absolute inset-0 w-full h-full rounded-xl shadow-lg"
-                  allowFullScreen
-                  allow="autoplay"
-                  title="Veauche mérite mieux - vidéo"
-                />
-              </div>
             </div>
           </div>
         </section>

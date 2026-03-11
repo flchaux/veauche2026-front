@@ -441,5 +441,10 @@
 - [x] Push sur GitHub
 
 ## Intégration player Dailymotion
-- [ ] Ajouter le player Dailymotion (xa11msi) dans Home.tsx
+- [x] Ajouter le player Dailymotion (xa11msi) dans Home.tsx
+- [x] Push sur GitHub
+
+## Ajustements lecteur Dailymotion
+- [ ] Désactiver l'autoplay (autoplay=0)
+- [ ] Remonter le lecteur plus haut dans la page
 - [ ] Push sur GitHub
