@@ -437,5 +437,5 @@
 - [ ] Push sur GitHub
 
 ## Ajout bulletin de vote dans /tracts
-- [ ] Ajouter le bulletin de vote dans Tracts.tsx
-- [ ] Push sur GitHub
+- [x] Ajouter le bulletin de vote dans Tracts.tsx
+- [x] Push sur GitHub

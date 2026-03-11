@@ -9,7 +9,6 @@ import Equipe from "./pages/Equipe";
 import Mesures from "./pages/Mesures";
 import VotesAdmin from "./pages/VotesAdmin";
 import Tracts from "./pages/Tracts";
-import AnnouncementPopup from "./components/AnnouncementPopup";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -41,7 +40,6 @@ function App() {
       >
         <TooltipProvider>
           <Toaster />
-          <AnnouncementPopup />
           <Router />
         </TooltipProvider>
       </ThemeProvider>
