@@ -435,3 +435,7 @@
 - [ ] Analyser submitVote et la requête POST
 - [ ] Corriger le bug
 - [ ] Push sur GitHub
+
+## Ajout bulletin de vote dans /tracts
+- [ ] Ajouter le bulletin de vote dans Tracts.tsx
+- [ ] Push sur GitHub

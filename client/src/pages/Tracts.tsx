@@ -32,6 +32,13 @@ const TRACTS: Tract[] = [
     url: "https://d2xsxph8kpxj0f.cloudfront.net/112885793/g6JrkeezNXgbHadPyGByc2/programme_61830d78.pdf",
     filename: "veauche-merite-mieux-programme.pdf",
   },
+  {
+    id: "bulletin",
+    title: "Bulletin de vote",
+    description: "Le bulletin officiel de la liste Veauche mérite mieux",
+    url: "https://d2xsxph8kpxj0f.cloudfront.net/112885793/g6JrkeezNXgbHadPyGByc2/Bulletin_aed27e86.pdf",
+    filename: "veauche-merite-mieux-bulletin-de-vote.pdf",
+  },
 ];
 
 export default function Tracts() {
